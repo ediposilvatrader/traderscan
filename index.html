@@ -794,7 +794,7 @@ const ANTHROPIC_KEY = 'sk-ant-api03-wSa7tozue5cNQAjQCnLdZAsp08I1SokB7QXayHaQk3O6
 const RESEND_KEY = 're_hxr6kMeY_8VXvwjoxUVwV2guLAy28qmB6';
 const ADMIN_PASS = 'traderscan2024';
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ══ PERGUNTAS ══
 const PERGUNTAS = [
@@ -963,7 +963,7 @@ async function finalizarFormulario() {
   // Salvar no Supabase
   try {
     const respostasArr = Object.values(respostas);
-    await supabase.from('respostas').insert({
+    await _supabase.from('respostas').insert({
       nome: userData.nome,
       email: userData.email,
       whatsapp: userData.whatsapp || null,
@@ -1321,7 +1321,7 @@ async function acessarAdmin() {
   document.getElementById('admin-table').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text2)">Carregando...</div>';
 
   try {
-    const { data, error } = await supabase.from('respostas').select('*').order('created_at', {ascending: false});
+    const { data, error } = await _supabase.from('respostas').select('*').order('created_at', {ascending: false});
     if (error) throw error;
 
     if (!data || data.length === 0) {
