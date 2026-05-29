@@ -7,7 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500;600;700&display=swap');
 
 :root {
   --bg: #0a0d14;
@@ -31,1272 +31,1587 @@ body {
   overflow-x: hidden;
 }
 
-/* BG ANIMADO */
-body::before {
-  content: '';
-  position: fixed;
-  top: -50%; left: -50%;
-  width: 200%; height: 200%;
-  background: radial-gradient(ellipse at 20% 20%, rgba(255,200,0,0.04) 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 80%, rgba(59,130,246,0.04) 0%, transparent 50%);
-  animation: bgPulse 8s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: 0;
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #1e2840; border-radius: 4px; }
 
-@keyframes bgPulse {
-  0% { transform: scale(1) rotate(0deg); }
-  100% { transform: scale(1.1) rotate(2deg); }
-}
-
-.container {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-  position: relative;
-  z-index: 1;
-}
-
-/* HEADER */
-.header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 3rem;
-}
-
-.logo-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 28px;
-}
-
-.logo-bars span {
-  width: 5px;
-  background: var(--gold);
-  border-radius: 2px;
-  display: block;
-  animation: barPulse 2s ease-in-out infinite;
-}
-
-.logo-bars span:nth-child(1) { height: 10px; animation-delay: 0s; }
-.logo-bars span:nth-child(2) { height: 16px; animation-delay: 0.1s; }
-.logo-bars span:nth-child(3) { height: 22px; animation-delay: 0.2s; }
-.logo-bars span:nth-child(4) { height: 28px; animation-delay: 0.3s; }
-.logo-bars span:nth-child(5) { height: 22px; animation-delay: 0.2s; }
-.logo-bars span:nth-child(6) { height: 16px; animation-delay: 0.1s; }
-
-@keyframes barPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
-.logo-text { display: flex; flex-direction: column; }
-.logo-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 3px;
-  color: white;
-  line-height: 1;
-}
-.logo-sub {
-  font-size: 9px;
-  color: var(--text2);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
-/* TELAS */
-.screen { display: none; animation: fadeIn 0.4s ease; }
+.screen { display: none; min-height: 100vh; padding: 2rem 1rem; }
 .screen.active { display: block; }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+.container { max-width: 800px; margin: 0 auto; }
+
+/* Logo */
+.logo {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-bottom: 2rem; padding-top: 1rem;
+}
+.logo-bars { display: flex; align-items: flex-end; gap: 3px; height: 24px; }
+.logo-bars span {
+  width: 4px; background: var(--gold); border-radius: 2px;
+}
+.logo-bars span:nth-child(1) { height: 30%; }
+.logo-bars span:nth-child(2) { height: 50%; }
+.logo-bars span:nth-child(3) { height: 75%; }
+.logo-bars span:nth-child(4) { height: 100%; }
+.logo-bars span:nth-child(5) { height: 60%; }
+.logo-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; letter-spacing: 3px; color: var(--gold);
+}
+.logo-sub {
+  display: block; font-size: 8px; color: var(--text2);
+  letter-spacing: 2px; margin-top: 2px;
 }
 
-/* TELA HOME */
-.hero-badge {
-  display: inline-block;
-  background: rgba(255,200,0,0.1);
-  border: 1px solid rgba(255,200,0,0.25);
-  color: var(--gold);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  padding: 5px 14px;
-  border-radius: 20px;
+/* HOME */
+.hero { padding: 2rem 0; }
+.tag {
+  display: inline-block; padding: 6px 16px;
+  border: 1px solid rgba(255,200,0,0.3);
+  background: rgba(255,200,0,0.05);
+  border-radius: 100px; font-size: 10px; letter-spacing: 2px;
+  color: var(--gold); margin-bottom: 1.5rem;
+}
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 8vw, 80px);
+  line-height: 0.95; letter-spacing: 2px;
   margin-bottom: 1.5rem;
 }
-
-.hero-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(40px, 8vw, 64px);
-  letter-spacing: 2px;
-  line-height: 1;
-  margin-bottom: 1.25rem;
-  background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero-title span { color: var(--gold); -webkit-text-fill-color: var(--gold); }
-
-.hero-desc {
-  font-size: 15px;
-  line-height: 1.8;
-  color: var(--text2);
-  max-width: 520px;
-  margin-bottom: 2.5rem;
-}
+h1 .yellow { color: var(--gold); display: block; }
+.subtitle { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 2.5rem; max-width: 560px; }
 
 .features {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 2.5rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem; margin-bottom: 2.5rem;
 }
-
-@media (max-width: 600px) { .features { grid-template-columns: 1fr; } }
-
 .feature {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.25rem;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem;
 }
+.feature-icon { font-size: 24px; margin-bottom: 8px; }
+.feature h3 { font-size: 13px; margin-bottom: 4px; }
+.feature p { font-size: 11px; color: var(--text2); line-height: 1.5; }
 
-.feature-icon {
-  font-size: 22px;
-  margin-bottom: 0.5rem;
-  display: block;
-}
-
-.feature-title {
-  font-weight: 600;
-  font-size: 13px;
-  margin-bottom: 0.3rem;
-}
-
-.feature-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--gold);
-  color: #0a0d14;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px;
-  letter-spacing: 2px;
-  padding: 14px 36px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-decoration: none;
-}
-
-.btn-primary:hover { background: var(--gold2); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,200,0,0.25); }
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  color: var(--text2);
-  font-size: 13px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  cursor: pointer;
+.btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 26px; border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 13px;
+  letter-spacing: 1.5px; cursor: pointer; border: none; text-transform: uppercase;
   transition: all 0.2s;
 }
+.btn-primary { background: var(--gold); color: #000; }
+.btn-primary:hover { background: var(--gold2); transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--bg2); }
 
-.btn-secondary:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
-
-/* FORMULÁRIO */
-.form-intro {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  margin-bottom: 2rem;
+/* FORM */
+.form-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem;
 }
-
-.form-intro-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 1px;
-  margin-bottom: 0.5rem;
-  color: var(--gold);
+.form-card h2 {
+  font-family: 'Bebas Neue', sans-serif; font-size: 22px;
+  letter-spacing: 2px; color: var(--gold); margin-bottom: 8px;
 }
-
-.form-intro p { font-size: 13px; color: var(--text2); line-height: 1.7; }
-
-.form-fields { margin-bottom: 2rem; }
-
+.form-card p { font-size: 13px; color: var(--text2); line-height: 1.6; }
 .field { margin-bottom: 1.25rem; }
-
 .field label {
-  display: block;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text2);
-  margin-bottom: 6px;
+  display: block; font-size: 10px; letter-spacing: 2px;
+  color: var(--text2); margin-bottom: 6px; text-transform: uppercase;
 }
-
 .field input {
-  width: 100%;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 14px;
-  font-family: 'DM Sans', sans-serif;
-  color: var(--text);
-  transition: border-color 0.2s;
-  outline: none;
+  width: 100%; padding: 12px 14px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); font-size: 14px; font-family: inherit;
 }
+.field input:focus { outline: none; border-color: var(--gold); }
 
-.field input:focus { border-color: rgba(255,200,0,0.4); }
-
-/* PROGRESSO */
-.progress-bar-wrap {
-  background: var(--bg2);
-  border-radius: 4px;
-  height: 4px;
-  margin-bottom: 2rem;
-  overflow: hidden;
+/* QUESTIONS */
+.progress {
+  height: 4px; background: var(--bg2); border-radius: 2px;
+  overflow: hidden; margin-bottom: 2rem;
 }
-
-.progress-bar-fill {
-  height: 100%;
-  background: var(--gold);
-  border-radius: 4px;
-  transition: width 0.4s ease;
+.progress-bar {
+  height: 100%; background: var(--gold); border-radius: 2px;
+  transition: width 0.3s;
 }
-
-.progress-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  font-size: 12px;
-  color: var(--text2);
+.q-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem;
 }
-
-/* PERGUNTA */
-.question-block {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.75rem;
-  margin-bottom: 1.5rem;
+.q-num {
+  font-size: 10px; letter-spacing: 2px; color: var(--gold);
+  margin-bottom: 12px;
 }
-
-.question-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  color: var(--gold);
-  letter-spacing: 2px;
-  margin-bottom: 0.75rem;
-}
-
-.question-text {
-  font-size: 16px;
+.q-text {
+  font-size: 17px; line-height: 1.5; margin-bottom: 1.5rem;
   font-weight: 500;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
 }
-
 .options { display: flex; flex-direction: column; gap: 10px; }
-
 .option {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 16px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: var(--bg3);
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 14px 18px; cursor: pointer;
+  transition: all 0.2s; font-size: 14px; line-height: 1.5;
 }
-
-.option:hover { border-color: rgba(255,200,0,0.3); background: rgba(255,200,0,0.04); }
+.option:hover { border-color: rgba(255,200,0,0.3); background: rgba(255,200,0,0.03); }
 .option.selected { border-color: var(--gold); background: rgba(255,200,0,0.08); }
-
-.option-letter {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 16px;
-  color: var(--gold);
-  min-width: 20px;
-  line-height: 1.4;
-}
-
-.option-text { font-size: 14px; line-height: 1.5; color: var(--text2); }
-.option.selected .option-text { color: var(--text); }
-
-.nav-btns { display: flex; gap: 12px; align-items: center; }
-
-.btn-nav {
-  padding: 10px 24px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.btn-nav.prev { background: var(--bg2); border: 1px solid var(--border); color: var(--text2); }
-.btn-nav.prev:hover { color: var(--text); }
-.btn-nav.next { background: var(--gold); color: #0a0d14; font-weight: 600; }
-.btn-nav.next:hover { background: var(--gold2); }
-.btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
 
 /* LOADING */
 .loading-screen {
-  text-align: center;
-  padding: 4rem 2rem;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; min-height: 80vh; text-align: center;
 }
-
-.loading-spinner {
-  width: 48px;
-  height: 48px;
-  border: 3px solid var(--border);
-  border-top-color: var(--gold);
-  border-radius: 50%;
-  margin: 0 auto 1.5rem;
-  animation: spin 0.8s linear infinite;
+.spinner {
+  width: 60px; height: 60px;
+  border: 3px solid var(--bg2); border-top-color: var(--gold);
+  border-radius: 50%; animation: spin 1s linear infinite;
+  margin-bottom: 1.5rem;
 }
-
 @keyframes spin { to { transform: rotate(360deg); } }
-
-.loading-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px;
-  letter-spacing: 2px;
-  margin-bottom: 0.5rem;
+.loading-screen h2 {
+  font-family: 'Bebas Neue', sans-serif; font-size: 24px;
+  letter-spacing: 2px; margin-bottom: 8px;
 }
+.loading-screen p { color: var(--text2); font-size: 13px; }
 
-.loading-sub { font-size: 14px; color: var(--text2); }
+/* REPORT */
+.report { max-width: 900px; margin: 0 auto; }
 
-/* RESULTADO */
-.result-cover {
-  background: var(--bg2);
+.report-header {
+  background: linear-gradient(180deg, #0f1320, #0c0f1a);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2rem;
-  margin-bottom: 1.5rem;
+  border-radius: 16px; padding: 2rem;
+  margin-bottom: 2rem;
 }
-
-.result-tag {
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.result-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 36px;
-  letter-spacing: 2px;
-  margin-bottom: 1.5rem;
-}
-
-.result-meta {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-@media (max-width: 500px) { .result-meta { grid-template-columns: 1fr 1fr; } }
-
-.result-meta-item { display: flex; flex-direction: column; gap: 3px; }
-.result-meta-label { font-size: 9px; letter-spacing: 2px; color: var(--text2); text-transform: uppercase; }
-.result-meta-value { font-size: 15px; font-weight: 500; color: var(--text); }
-.result-meta-value.gold { color: var(--gold); }
-
-.result-badge {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(255,200,0,0.08);
-  border: 1px solid rgba(255,200,0,0.2);
-  border-radius: 10px;
-  padding: 1rem 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.badge-letter {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 56px;
-  color: var(--gold);
-  line-height: 1;
-}
-
-.badge-type { font-size: 10px; color: var(--text2); letter-spacing: 2px; text-transform: uppercase; }
-
-.validation-box {
-  background: rgba(255,200,0,0.04);
-  border-left: 3px solid var(--gold);
-  padding: 0.875rem 1rem;
-  border-radius: 0 8px 8px 0;
-  font-size: 12px;
-  color: var(--text2);
-  line-height: 1.7;
-}
-
-/* SEÇÕES */
-.sec { margin-bottom: 1.5rem; }
-.sec-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 1rem;
-  padding-bottom: 0.6rem;
+.rh-brand {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 1.25rem; margin-bottom: 1.25rem;
   border-bottom: 1px solid var(--border);
+  flex-wrap: wrap; gap: 1rem;
 }
-.sec-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--gold); line-height: 1; min-width: 28px; }
-.sec-title { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 2px; text-transform: uppercase; }
-.sec-body { font-size: 13.5px; line-height: 1.8; color: #9aa5ba; }
-.sec-body p + p { margin-top: 0.65rem; }
-
-/* BARRAS */
-.bar-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); margin-bottom: 0.875rem; }
-.bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-.bar-name { font-size: 13px; font-weight: 500; min-width: 90px; }
-.bar-track { flex: 1; height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
-.bar-pct { font-size: 12px; font-weight: 600; min-width: 32px; text-align: right; font-family: 'DM Mono', monospace; }
-
-/* RADAR */
-.radar-wrap { display: flex; justify-content: center; margin: 1rem 0; }
-
-/* COMPETENCIAS */
-.comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; margin-top: 0.75rem; }
-.comp-item { display: flex; flex-direction: column; gap: 4px; }
-.comp-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text2); }
-.comp-track { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
-.comp-fill { height: 100%; border-radius: 2px; }
-
-/* CARDS */
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-@media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
-
-.card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.125rem;
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 9px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text2);
-  margin-bottom: 0.75rem;
-}
-
-.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-
-.list-item {
-  font-size: 12.5px;
-  color: #9aa5ba;
-  padding: 5px 0 5px 14px;
-  position: relative;
-  line-height: 1.5;
-  border-bottom: 1px solid var(--border);
-}
-.list-item:last-child { border-bottom: none; }
-.list-item::before { content: '—'; position: absolute; left: 0; color: var(--text2); opacity: 0.5; font-size: 10px; }
-
-.card-alert {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-left: 3px solid #ef4444;
-  border-radius: 0 var(--radius) var(--radius) 0;
-  padding: 1.125rem;
-}
-
-/* FRASE FINAL */
-.frase-card {
-  background: var(--bg2);
-  border: 1px solid rgba(255,200,0,0.15);
-  border-radius: var(--radius);
-  padding: 2rem;
-  margin-top: 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.frase-card::before {
-  content: '"';
+.rh-brand-left {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 180px;
-  color: rgba(255,200,0,0.04);
-  position: absolute;
-  top: -30px; left: 10px;
-  line-height: 1;
+  font-size: 18px; letter-spacing: 3px; color: var(--gold);
+}
+.rh-brand-left small {
+  display: block; font-family: 'DM Sans', sans-serif;
+  font-size: 9px; letter-spacing: 2px; color: var(--text2);
+  margin-top: 2px; font-weight: 400;
+}
+.rh-version {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--text2); letter-spacing: 1px;
+}
+.rh-info {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px 24px; margin-bottom: 1.25rem;
+}
+.rh-info-item .lbl {
+  font-size: 9px; letter-spacing: 2px; color: var(--text2);
+  text-transform: uppercase; margin-bottom: 3px;
+}
+.rh-info-item .val {
+  font-size: 13px; color: var(--text); font-weight: 500;
+}
+.rh-info-item .val-mono {
+  font-family: 'DM Mono', monospace;
+}
+.rh-analyst {
+  padding-top: 1.25rem; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.rh-analyst-info {
+  font-size: 12px; color: var(--text2);
+}
+.rh-analyst-info strong { color: var(--text); font-size: 13px; }
+
+.result-card {
+  background: linear-gradient(135deg, rgba(255,200,0,0.1), rgba(255,200,0,0.02));
+  border: 1px solid rgba(255,200,0,0.25);
+  border-radius: 16px; padding: 2rem;
+  margin-bottom: 2rem; text-align: center;
+  position: relative; overflow: hidden;
+}
+.result-card::before {
+  content: ''; position: absolute; top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(255,200,0,0.04), transparent 60%);
   pointer-events: none;
 }
-
-.frase-text {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(22px, 4vw, 28px);
-  letter-spacing: 1.5px;
-  line-height: 1.3;
+.result-card .lbl {
+  font-size: 10px; letter-spacing: 2.5px; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 12px; font-weight: 700;
   position: relative;
-  z-index: 1;
 }
-.frase-text span { color: var(--gold); }
-.frase-sub { font-size: 10px; color: var(--text2); letter-spacing: 2px; text-transform: uppercase; margin-top: 0.75rem; position: relative; z-index: 1; }
+.result-card .perfil-nome {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 44px; letter-spacing: 2px; color: var(--gold);
+  line-height: 1.1; margin-bottom: 12px; position: relative;
+}
+.result-card .badge {
+  display: inline-block; padding: 4px 12px;
+  background: rgba(255,200,0,0.15); border: 1px solid rgba(255,200,0,0.3);
+  border-radius: 100px; font-size: 10px; letter-spacing: 2px;
+  color: var(--gold); margin-bottom: 18px; font-weight: 600;
+  position: relative;
+}
+.scores {
+  display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+  margin-top: 12px; position: relative;
+}
+.score-item {
+  text-align: center;
+}
+.score-item .num {
+  font-family: 'DM Mono', monospace; font-size: 22px;
+  font-weight: 700; line-height: 1;
+}
+.score-item .lbl-s {
+  font-size: 9px; letter-spacing: 1.5px; color: var(--text2);
+  text-transform: uppercase; margin-top: 4px;
+}
+.score-diff {
+  font-size: 11px; color: var(--text2); margin-top: 14px;
+  position: relative; font-family: 'DM Mono', monospace;
+}
 
-/* EMAIL NOTICE */
-.email-notice {
-  background: rgba(16,185,129,0.08);
-  border: 1px solid rgba(16,185,129,0.2);
-  border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-  margin-top: 1.5rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 13px;
-  color: #6ee7b7;
-  line-height: 1.6;
+.section {
+  background: linear-gradient(180deg, #0f1320, #0c0f1a);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+.section-title {
+  font-size: 10px; letter-spacing: 2.5px; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 16px;
+  font-weight: 700; display: flex; align-items: center; gap: 10px;
+}
+.section-title::before {
+  content: ''; display: inline-block; width: 28px; height: 2px;
+  background: var(--gold);
+}
+.section-content { font-size: 14px; line-height: 1.85; color: #a8b1c0; }
+.section-content p { margin-bottom: 14px; }
+
+.list-item {
+  padding: 10px 0 10px 24px; position: relative;
+  font-size: 13.5px; color: #a8b1c0; line-height: 1.6;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.list-item:last-child { border-bottom: none; }
+.list-item::before {
+  content: ''; position: absolute; left: 0; top: 16px;
+  width: 12px; height: 12px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.list-item.green::before { background: #10b981; }
+.list-item.yellow::before { background: #f59e0b; }
+.list-item.red::before { background: #ef4444; }
+
+.grid-2 {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+}
+@media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+.card-inner {
+  background: rgba(0,0,0,0.2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.5rem;
+}
+.card-inner.green { border-color: rgba(16,185,129,0.2); }
+.card-inner.yellow { border-color: rgba(245,158,11,0.2); }
+.card-inner.red { border-left: 4px solid #ef4444; border-color: rgba(239,68,68,0.2); }
+
+.radar-wrap {
+  background: rgba(0,0,0,0.2); border: 1px solid var(--border);
+  border-radius: 16px; padding: 1.25rem;
+  display: flex; justify-content: center; align-items: center;
+}
+
+.comp-bars {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px 36px; margin-top: 1rem;
+}
+@media (max-width: 600px) { .comp-bars { grid-template-columns: 1fr; } }
+.comp-bar {
+  margin-bottom: 6px;
+}
+.comp-bar-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 5px;
+}
+.comp-bar-name {
+  font-size: 11.5px; color: #c8cdd6; font-weight: 500;
+}
+.comp-bar-val {
+  font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 700;
+}
+.comp-bar-track {
+  height: 6px; background: rgba(255,255,255,0.04);
+  border-radius: 3px; overflow: hidden;
+}
+.comp-bar-fill { height: 100%; border-radius: 3px; }
+
+.frase-final {
+  background: linear-gradient(135deg, rgba(255,200,0,0.1), rgba(255,200,0,0.02));
+  border: 1px solid rgba(255,200,0,0.25);
+  border-radius: 14px; padding: 2rem;
+  position: relative; overflow: hidden;
+  text-align: center;
+}
+.frase-final .frase {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px; letter-spacing: 1.8px; line-height: 1.4;
+  color: var(--gold); margin-bottom: 10px;
+}
+.frase-final .sig {
+  font-size: 10px; color: var(--text2); letter-spacing: 2.5px;
+  text-transform: uppercase; font-weight: 600;
+}
+
+.confidencial {
+  text-align: center; padding: 1.5rem 1rem;
+  font-size: 10px; color: var(--text2); letter-spacing: 1.5px;
+  text-transform: uppercase; margin-top: 1rem;
+  border-top: 1px solid var(--border);
 }
 
 /* ADMIN */
-.admin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+.admin-table {
+  width: 100%; border-collapse: collapse;
+  background: var(--bg2); border-radius: var(--radius); overflow: hidden;
 }
-.admin-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; }
+.admin-table th, .admin-table td {
+  padding: 12px 16px; text-align: left; font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+.admin-table th {
+  background: var(--bg3); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text2);
+}
+.admin-table tr:hover { background: rgba(255,200,0,0.03); }
 
-.table-wrap {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
+.admin-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem; margin-bottom: 2rem;
+}
+.stat-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem;
+}
+.stat-card .stat-num {
+  font-family: 'DM Mono', monospace; font-size: 28px;
+  color: var(--gold); font-weight: 700;
+}
+.stat-card .stat-lbl {
+  font-size: 10px; letter-spacing: 2px; color: var(--text2);
+  text-transform: uppercase; margin-top: 4px;
 }
 
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th { background: var(--bg3); padding: 12px 16px; text-align: left; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); border-bottom: 1px solid var(--border); }
-td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text2); }
-td:first-child { color: var(--text); font-weight: 500; }
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: rgba(255,255,255,0.02); }
-
-.perfil-badge {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
+@media (max-width: 768px) {
+  .report-header { padding: 1.25rem; }
+  .result-card .perfil-nome { font-size: 32px; }
+  .section { padding: 1.25rem; }
 }
-
-/* TOAST */
-.toast {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: #1a2235;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  animation: slideUp 0.3s ease;
-  z-index: 9999;
-}
-@keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-
-hr.divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
 </style>
 </head>
 <body>
 
-<!-- ══ TELA HOME ══ -->
+<!-- HOME -->
 <div id="screen-home" class="screen active">
   <div class="container">
-    <div class="header">
-      <div class="logo-bars">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <div class="logo-text">
-        <span class="logo-name">TraderScan</span>
-        <span class="logo-sub">Diagnóstico Comportamental</span>
+    <div class="logo">
+      <div class="logo-bars"><span></span><span></span><span></span><span></span><span></span></div>
+      <div>
+        <div class="logo-text">TRADERSCAN</div>
+        <span class="logo-sub">DIAGNÓSTICO COMPORTAMENTAL</span>
       </div>
     </div>
 
-    <div class="hero-badge">Ferramenta de Autoconhecimento para Traders</div>
-    <h1 class="hero-title">Descubra seu<br><span>Perfil no</span><br>Mercado</h1>
-    <p class="hero-desc">Responda 24 perguntas comportamentais e receba um diagnóstico completo sobre como você toma decisões, reage à pressão e opera no mercado financeiro.</p>
+    <div class="hero">
+      <div class="tag">FERRAMENTA DE AUTOCONHECIMENTO PARA TRADERS</div>
+      <h1>DESCUBRA SEU<span class="yellow">PERFIL NO</span>MERCADO</h1>
+      <p class="subtitle">Responda 24 perguntas comportamentais e receba um diagnóstico completo sobre como você toma decisões, reage à pressão e opera no mercado financeiro.</p>
 
-    <div class="features">
-      <div class="feature">
-        <span class="feature-icon">🧠</span>
-        <div class="feature-title">Baseado em Comportamento</div>
-        <div class="feature-desc">Perguntas neutras que revelam padrões reais de decisão</div>
-      </div>
-      <div class="feature">
-        <span class="feature-icon">📊</span>
-        <div class="feature-title">Relatório Completo</div>
-        <div class="feature-desc">Mapa de competências, pontos fortes e erros prováveis</div>
-      </div>
-      <div class="feature">
-        <span class="feature-icon">📧</span>
-        <div class="feature-title">Enviado por E-mail</div>
-        <div class="feature-desc">Receba seu relatório em PDF diretamente no e-mail</div>
-      </div>
-    </div>
-
-    <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
-      <button class="btn-primary" onclick="showScreen('screen-form')">
-        Iniciar Diagnóstico →
-      </button>
-      <button class="btn-secondary" onclick="showAdmin()">
-        🔒 Admin
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ══ TELA FORMULÁRIO ══ -->
-<div id="screen-form" class="screen">
-  <div class="container">
-    <div class="header">
-      <div class="logo-bars">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <div class="logo-text">
-        <span class="logo-name">TraderScan</span>
-        <span class="logo-sub">Diagnóstico Comportamental</span>
-      </div>
-    </div>
-
-    <div id="form-dados">
-      <div class="form-intro">
-        <div class="form-intro-title">Antes de começar</div>
-        <p>Preencha seus dados abaixo. O diagnóstico leva cerca de 5 minutos e você receberá seu relatório completo por e-mail.</p>
-      </div>
-      <div class="form-fields">
-        <div class="field"><label>Nome completo</label><input type="text" id="input-nome" placeholder="Seu nome"></div>
-        <div class="field"><label>E-mail</label><input type="email" id="input-email" placeholder="seu@email.com"></div>
-        <div class="field"><label>WhatsApp (opcional)</label><input type="tel" id="input-whatsapp" placeholder="(11) 99999-9999"></div>
-      </div>
-      <button class="btn-primary" onclick="iniciarPerguntas()">Começar o Diagnóstico →</button>
-    </div>
-
-    <div id="form-perguntas" style="display:none">
-      <div class="progress-info">
-        <span id="prog-text">Pergunta 1 de 24</span>
-        <span id="prog-pct">0%</span>
-      </div>
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
-      </div>
-      <div id="pergunta-container"></div>
-      <div class="nav-btns">
-        <button class="btn-nav prev" onclick="perguntaAnterior()" id="btn-prev">← Anterior</button>
-        <button class="btn-nav next" onclick="proximaPergunta()" id="btn-next">Próxima →</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ TELA LOADING ══ -->
-<div id="screen-loading" class="screen">
-  <div class="container">
-    <div class="header">
-      <div class="logo-bars">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <div class="logo-text">
-        <span class="logo-name">TraderScan</span>
-        <span class="logo-sub">Diagnóstico Comportamental</span>
-      </div>
-    </div>
-    <div class="loading-screen">
-      <div class="loading-spinner"></div>
-      <div class="loading-title">Analisando seu perfil</div>
-      <div class="loading-sub" id="loading-msg">Processando suas respostas...</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ TELA RESULTADO ══ -->
-<div id="screen-result" class="screen">
-  <div class="container">
-    <div class="header">
-      <div class="logo-bars">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <div class="logo-text">
-        <span class="logo-name">TraderScan</span>
-        <span class="logo-sub">Diagnóstico Comportamental</span>
-      </div>
-    </div>
-    <div id="result-content"></div>
-  </div>
-</div>
-
-<!-- ══ TELA ADMIN ══ -->
-<div id="screen-admin" class="screen">
-  <div class="container">
-    <div class="header">
-      <div class="logo-bars">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <div class="logo-text">
-        <span class="logo-name">TraderScan</span>
-        <span class="logo-sub">Diagnóstico Comportamental</span>
-      </div>
-    </div>
-    <div class="admin-header">
-      <div class="admin-title">Painel Admin</div>
-      <button class="btn-secondary" onclick="showScreen('screen-home')">← Voltar</button>
-    </div>
-    <div id="admin-content">
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;">
-        <div style="font-size:12px;color:var(--text2);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;">Senha admin</div>
-        <div style="display:flex;gap:8px;">
-          <input type="password" id="admin-pass" placeholder="Digite a senha" style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;">
-          <button class="btn-nav next" onclick="acessarAdmin()">Entrar</button>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">🧠</div>
+          <h3>Baseado em Comportamento</h3>
+          <p>Perguntas neutras que revelam padrões reais de decisão</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <h3>Relatório Completo</h3>
+          <p>Mapa de competências, pontos fortes e erros prováveis</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📧</div>
+          <h3>Enviado por E-mail</h3>
+          <p>Receba seu relatório em PDF diretamente no e-mail</p>
         </div>
       </div>
-      <div id="admin-table" style="display:none"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="showScreen('screen-form')">INICIAR DIAGNÓSTICO →</button>
+        <button class="btn btn-ghost" onclick="abrirAdmin()">🔒 Admin</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div id="screen-form" class="screen">
+  <div class="container">
+    <div class="logo">
+      <div class="logo-bars"><span></span><span></span><span></span><span></span><span></span></div>
+      <div>
+        <div class="logo-text">TRADERSCAN</div>
+        <span class="logo-sub">DIAGNÓSTICO COMPORTAMENTAL</span>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2>ANTES DE COMEÇAR</h2>
+      <p>Preencha seus dados abaixo. O diagnóstico leva cerca de 5 minutos e você receberá seu relatório completo por e-mail.</p>
+    </div>
+
+    <div class="field">
+      <label>Nome completo</label>
+      <input type="text" id="input-nome" placeholder="Seu nome">
+    </div>
+    <div class="field">
+      <label>E-mail</label>
+      <input type="email" id="input-email" placeholder="seu@email.com">
+    </div>
+    <div class="field">
+      <label>WhatsApp (opcional)</label>
+      <input type="tel" id="input-whatsapp" placeholder="(11) 99999-9999">
+    </div>
+
+    <button class="btn btn-primary" onclick="iniciarPerguntas()">COMEÇAR O DIAGNÓSTICO →</button>
+  </div>
+</div>
+
+<!-- QUESTIONS -->
+<div id="screen-questions" class="screen">
+  <div class="container">
+    <div class="progress"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+    <div id="question-container"></div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="screen-loading" class="screen">
+  <div class="container">
+    <div class="loading-screen">
+      <div class="spinner"></div>
+      <h2>GERANDO SEU RELATÓRIO</h2>
+      <p id="loading-msg">Calculando seu perfil comportamental...</p>
+    </div>
+  </div>
+</div>
+
+<!-- REPORT -->
+<div id="screen-report" class="screen">
+  <div class="report" id="report-content"></div>
+</div>
+
+<!-- ADMIN LOGIN -->
+<div id="screen-admin-login" class="screen">
+  <div class="container">
+    <div class="logo">
+      <div class="logo-bars"><span></span><span></span><span></span><span></span><span></span></div>
+      <div>
+        <div class="logo-text">TRADERSCAN</div>
+        <span class="logo-sub">PAINEL ADMINISTRATIVO</span>
+      </div>
+    </div>
+    <div class="form-card">
+      <h2>ACESSO RESTRITO</h2>
+      <p>Insira a senha de administrador para continuar.</p>
+    </div>
+    <div class="field">
+      <label>Senha</label>
+      <input type="password" id="admin-pwd" placeholder="••••••••" onkeypress="if(event.key==='Enter') verificarAdmin()">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="verificarAdmin()">ENTRAR →</button>
+      <button class="btn btn-ghost" onclick="showScreen('screen-home')">← Voltar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="screen-admin" class="screen">
+  <div class="container" style="max-width: 1200px;">
+    <div class="logo">
+      <div class="logo-bars"><span></span><span></span><span></span><span></span><span></span></div>
+      <div>
+        <div class="logo-text">TRADERSCAN</div>
+        <span class="logo-sub">PAINEL ADMINISTRATIVO</span>
+      </div>
+    </div>
+
+    <div class="admin-stats" id="admin-stats"></div>
+
+    <div style="margin-bottom: 1rem; display: flex; gap: 8px; flex-wrap: wrap;">
+      <button class="btn btn-ghost" onclick="carregarDiagnosticos()">🔄 Atualizar</button>
+      <button class="btn btn-ghost" onclick="showScreen('screen-home')">← Voltar</button>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="admin-table" id="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Data</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Perfil</th>
+            <th>Tempo</th>
+          </tr>
+        </thead>
+        <tbody id="admin-tbody"></tbody>
+      </table>
     </div>
   </div>
 </div>
 
 <script>
-// ══ CONFIG ══
+// ============ CONFIGURAÇÕES ============
 const SUPABASE_URL = 'https://dyspwprvlojksvyrpkrm.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_DduiIF66zvbqnxlZQtvQ0g_3JYjZ0ZX';
-const ANTHROPIC_KEY = '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';
 const RESEND_KEY = 're_hxr6kMeY_8VXvwjoxUVwV2guLAy28qmB6';
-const ADMIN_PASS = 'traderscan2024';
+const ADMIN_PASSWORD = 'traderscan2024';
+const EMAIL_DESTINO = 'edipo.mmn.pro@gmail.com'; // todos os e-mails vão pra cá enquanto domínio não está verificado
+const ANALISTA = 'Édipo Silva';
+const VERSAO = 'v1.0';
 
 const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ══ PERGUNTAS ══
+// ============ ESTADO ============
+let estado = {
+  nome: '', email: '', whatsapp: '',
+  respostas: [],
+  perguntaAtual: 0,
+  perfil: null,
+  inicioPreenchimento: null,
+  tempoPreenchimento: 0,
+  reportId: null
+};
+
+// ============ PERGUNTAS ============
 const PERGUNTAS = [
-  { id:1, texto:"Quando preciso tomar uma decisão importante, eu geralmente:", opcoes:{a:"Decido rapidamente e ajusto no caminho",b:"Analiso todas as opções antes de decidir",c:"Consulto pessoas próximas para ter mais perspectivas",d:"Prefiro aguardar até me sentir seguro o suficiente"}},
-  { id:2, texto:"Em situações de pressão ou urgência, eu costumo:", opcoes:{a:"Agir imediatamente, sem pensar muito",b:"Buscar mais informações antes de qualquer atitude",c:"Ficar agitado e precisar de apoio externo",d:"Me recolher e esperar a situação se normalizar"}},
-  { id:3, texto:"Diante de uma oportunidade nova e desconhecida, minha reação natural é:", opcoes:{a:"Entrar de cabeça e descobrir no processo",b:"Estudar a fundo antes de me comprometer",c:"Ver o que as pessoas ao meu redor acham",d:"Ser cauteloso e preferir o que já conheço"}},
-  { id:4, texto:"Quando começo um projeto ou tarefa nova, prefiro:", opcoes:{a:"Começar logo e ir ajustando conforme avanço",b:"Planejar tudo detalhadamente antes de executar",c:"Trabalhar em equipe e trocar ideias constantemente",d:"Ter um processo claro e previsível para seguir"}},
-  { id:5, texto:"Em relação ao risco, eu me identifico mais com:", opcoes:{a:"Gosto de arriscar, o risco faz parte do jogo",b:"Aceito risco calculado, desde que bem analisado",c:"Depende do que as pessoas ao meu redor estão fazendo",d:"Prefiro evitar riscos sempre que possível"}},
-  { id:6, texto:"Quando algo dá errado em um plano meu, normalmente:", opcoes:{a:"Reajo rápido e tento resolver na hora",b:"Analiso o que deu errado antes de agir",c:"Procuro apoio emocional ou opinião de alguém",d:"Fico abalado e preciso de tempo para me reorganizar"}},
-  { id:7, texto:"Para mim, esperar pelo momento ideal para agir é:", opcoes:{a:"Muito difícil, prefiro agir logo",b:"Essencial, a preparação é tudo",c:"Depende do humor e do ambiente ao meu redor",d:"Natural, me sinto bem esperando o momento certo"}},
-  { id:8, texto:"Quando estou sob pressão intensa, meu comportamento é:", opcoes:{a:"Fico mais intenso e acelerado",b:"Busco mais dados e análises",c:"Preciso de suporte emocional ou validação",d:"Me retiro e busco estabilidade interna"}},
-  { id:9, texto:"Em relação a mudanças inesperadas nos meus planos:", opcoes:{a:"Me adapto rápido, mudança não me incomoda",b:"Preciso de tempo para reanalisar e replanejar",c:"Reajo de acordo com o que as pessoas ao redor fazem",d:"Me incomodo bastante, prefiro previsibilidade"}},
-  { id:10, texto:"Minha relação com rotinas e processos repetitivos é:", opcoes:{a:"Não gosto, preciso de variedade e movimento",b:"Valorizo muito, rotina me dá clareza e controle",c:"Depende do grupo em que estou inserido",d:"Adoro rotinas, me sinto mais seguro com elas"}},
-  { id:11, texto:"Quando enfrento incerteza em uma situação importante:", opcoes:{a:"Prefiro agir e descobrir no caminho",b:"Busco eliminar a incerteza com mais informação",c:"Procuro saber o que outros estão fazendo na mesma situação",d:"Evito agir até ter mais segurança"}},
-  { id:12, texto:"Para manter consistência em algo que me propus a fazer:", opcoes:{a:"Funciono melhor com metas de curto prazo e resultados rápidos",b:"Preciso de um plano estruturado e bem definido",c:"Me mantenho motivado com apoio e incentivo externo",d:"Sigo com constância mesmo sem resultados imediatos"}},
-  { id:13, texto:"Após um erro ou resultado negativo, minha reação mais comum é:", opcoes:{a:"Querer compensar rapidamente na próxima tentativa",b:"Analisar profundamente o que deu errado",c:"Precisar processar emocionalmente com alguém de confiança",d:"Me afastar por um tempo antes de retomar"}},
-  { id:14, texto:"Quando preciso avaliar uma situação complexa, minha tendência é:", opcoes:{a:"Confiar no instinto e decidir pelo feeling",b:"Decompor em partes e analisar cada variável",c:"Perguntar a opinião de pessoas com mais experiência",d:"Comparar com situações semelhantes que já vivi"}},
-  { id:15, texto:"Em momentos de perda ou fracasso, o que mais me afeta é:", opcoes:{a:"A sensação de ter ficado parado enquanto poderia ter agido",b:"Não ter analisado bem o suficiente antes",c:"O impacto emocional e o julgamento dos outros",d:"A sensação de instabilidade e falta de controle"}},
-  { id:16, texto:"Para retomar depois de um resultado ruim, eu preciso:", opcoes:{a:"Voltar logo à ação, não fico muito tempo parado",b:"Entender o que aconteceu antes de tentar de novo",c:"Receber apoio e incentivo de pessoas próximas",d:"Um período de estabilidade antes de me expor novamente"}},
-  { id:17, texto:"A opinião de outras pessoas sobre minhas decisões:", opcoes:{a:"Importa pouco, confio no meu próprio julgamento",b:"Considero quando vem de alguém tecnicamente embasado",c:"Influencia bastante minha visão e decisões",d:"Importa principalmente para validar que estou no caminho certo"}},
-  { id:18, texto:"Quando ouço análises ou opiniões de terceiros sobre algo que estou fazendo:", opcoes:{a:"Filtro rapidamente e sigo meu próprio caminho",b:"Avalio tecnicamente e incorporo se fizer sentido",c:"Me influencio facilmente, especialmente se vier de alguém que admiro",d:"Uso para confirmar ou ajustar o que já planejava fazer"}},
-  { id:19, texto:"Diante de um ambiente muito dinâmico e em constante mudança:", opcoes:{a:"Me sinto energizado, adoro ambientes assim",b:"Consigo me adaptar, mas prefiro ter tempo para reanalisar",c:"Dependo muito do clima emocional ao meu redor",d:"Me sinto desconfortável, prefiro ambientes mais estáveis"}},
-  { id:20, texto:"Quando preciso tomar uma decisão sem poder consultar ninguém:", opcoes:{a:"Decido sem dificuldade, confio em mim mesmo",b:"Faço a melhor análise possível com o que tenho",c:"Me sinto inseguro, prefiro ter pelo menos uma validação externa",d:"Ajo com cautela e prefiro a opção mais segura disponível"}},
-  { id:21, texto:"Em relação a aprender coisas novas e mudar métodos:", opcoes:{a:"Adoro experimentar coisas novas, mudo de abordagem com facilidade",b:"Aprendo bem, mas preciso validar antes de aplicar",c:"Aprendo melhor com outras pessoas e em grupo",d:"Prefiro dominar bem o que já conheço antes de mudar"}},
-  { id:22, texto:"Minha relação com o tempo e a paciência no dia a dia é:", opcoes:{a:"Sou impaciente, quero resultados rápidos",b:"Tenho paciência quando estou bem preparado",c:"Minha paciência varia muito conforme meu estado emocional",d:"Sou naturalmente paciente e constante"}},
-  { id:23, texto:"Quando estou aguardando um resultado que demora:", opcoes:{a:"Fico inquieto e sinto vontade de acelerar o processo",b:"Uso o tempo para revisar e aprimorar o plano",c:"Fico ansioso e busco distrações ou conversas para aliviar",d:"Aguardo com tranquilidade, confio no processo"}},
-  { id:24, texto:"Para mim, seguir uma regra ou processo de forma rígida e consistente é:", opcoes:{a:"Difícil, prefiro flexibilidade para adaptar conforme o momento",b:"Natural quando a regra faz sentido e foi bem pensada",c:"Depende do ambiente e das pessoas ao meu redor",d:"Fácil e confortável, gosto de ter estrutura clara"}}
+  { texto: "Quando preciso tomar uma decisão importante, eu costumo:", opcoes: [
+    { letra: "a", texto: "Agir rapidamente e ajustar depois" },
+    { letra: "b", texto: "Analisar todos os cenários antes de decidir" },
+    { letra: "c", texto: "Conversar com pessoas de confiança" },
+    { letra: "d", texto: "Esperar até me sentir totalmente seguro" }
+  ]},
+  { texto: "Em um ambiente de pressão, eu tendo a:", opcoes: [
+    { letra: "a", texto: "Acelerar e tomar decisões mais rápidas" },
+    { letra: "b", texto: "Buscar mais informações antes de agir" },
+    { letra: "c", texto: "Ficar emocionalmente afetado" },
+    { letra: "d", texto: "Recuar e esperar a situação se acalmar" }
+  ]},
+  { texto: "Quando algo dá errado, minha primeira reação é:", opcoes: [
+    { letra: "a", texto: "Tentar resolver imediatamente" },
+    { letra: "b", texto: "Analisar o que aconteceu em detalhe" },
+    { letra: "c", texto: "Compartilhar com alguém" },
+    { letra: "d", texto: "Recolher e processar internamente" }
+  ]},
+  { texto: "Diante de uma oportunidade nova, eu:", opcoes: [
+    { letra: "a", texto: "Aproveito sem pensar muito" },
+    { letra: "b", texto: "Pesquiso bastante antes de decidir" },
+    { letra: "c", texto: "Peço opiniões de pessoas próximas" },
+    { letra: "d", texto: "Avalio com cuidado os riscos" }
+  ]},
+  { texto: "Quando estou esperando algo importante acontecer, eu:", opcoes: [
+    { letra: "a", texto: "Fico inquieto e quero adiantar" },
+    { letra: "b", texto: "Uso o tempo para planejar próximos passos" },
+    { letra: "c", texto: "Procuro distração com pessoas" },
+    { letra: "d", texto: "Espero com paciência" }
+  ]},
+  { texto: "Em uma discussão, eu costumo:", opcoes: [
+    { letra: "a", texto: "Defender minha posição com energia" },
+    { letra: "b", texto: "Apresentar argumentos lógicos" },
+    { letra: "c", texto: "Tentar entender o lado emocional do outro" },
+    { letra: "d", texto: "Evitar conflito e buscar consenso" }
+  ]},
+  { texto: "Quando recebo críticas, minha tendência é:", opcoes: [
+    { letra: "a", texto: "Responder na hora" },
+    { letra: "b", texto: "Analisar se faz sentido tecnicamente" },
+    { letra: "c", texto: "Me sentir afetado emocionalmente" },
+    { letra: "d", texto: "Refletir internamente sem reagir" }
+  ]},
+  { texto: "Em um projeto, eu prefiro:", opcoes: [
+    { letra: "a", texto: "Começar e ir ajustando no caminho" },
+    { letra: "b", texto: "Planejar tudo em detalhe primeiro" },
+    { letra: "c", texto: "Trabalhar em equipe" },
+    { letra: "d", texto: "Seguir um processo testado" }
+  ]},
+  { texto: "Quando há mudanças repentinas, eu:", opcoes: [
+    { letra: "a", texto: "Me adapto rapidamente" },
+    { letra: "b", texto: "Preciso entender antes de aceitar" },
+    { letra: "c", texto: "Fico desconfortável emocionalmente" },
+    { letra: "d", texto: "Resisto até ter certeza que é necessário" }
+  ]},
+  { texto: "Em situações de incerteza, eu:", opcoes: [
+    { letra: "a", texto: "Ajo mesmo sem ter todas as respostas" },
+    { letra: "b", texto: "Busco mais informações até reduzir a dúvida" },
+    { letra: "c", texto: "Sigo a intuição emocional" },
+    { letra: "d", texto: "Aguardo até ter clareza completa" }
+  ]},
+  { texto: "Quando preciso aprender algo novo, eu:", opcoes: [
+    { letra: "a", texto: "Aprendo na prática, fazendo" },
+    { letra: "b", texto: "Estudo profundamente antes de aplicar" },
+    { letra: "c", texto: "Aprendo melhor com outras pessoas" },
+    { letra: "d", texto: "Sigo um método estruturado e gradual" }
+  ]},
+  { texto: "Diante de um erro próprio, eu:", opcoes: [
+    { letra: "a", texto: "Tento corrigir imediatamente" },
+    { letra: "b", texto: "Analiso a fundo o que deu errado" },
+    { letra: "c", texto: "Levo bastante para o lado pessoal" },
+    { letra: "d", texto: "Preciso de tempo para retomar a confiança" }
+  ]},
+  { texto: "Em relação a regras e rotinas, eu:", opcoes: [
+    { letra: "a", texto: "Acho que freiam demais" },
+    { letra: "b", texto: "Crio minhas próprias regras detalhadas" },
+    { letra: "c", texto: "Sigo conforme o momento e o grupo" },
+    { letra: "d", texto: "Valorizo muito e raramente quebro" }
+  ]},
+  { texto: "Quando me sinto sobrecarregado, eu:", opcoes: [
+    { letra: "a", texto: "Aumento o ritmo para resolver tudo" },
+    { letra: "b", texto: "Faço uma lista e priorizo" },
+    { letra: "c", texto: "Busco apoio emocional" },
+    { letra: "d", texto: "Pauso e recupero energia primeiro" }
+  ]},
+  { texto: "Em decisões financeiras, eu:", opcoes: [
+    { letra: "a", texto: "Decido rápido com base no instinto" },
+    { letra: "b", texto: "Analiso números e cenários" },
+    { letra: "c", texto: "Consulto pessoas que confio" },
+    { letra: "d", texto: "Sou conservador por princípio" }
+  ]},
+  { texto: "Quando algo me frustra, eu:", opcoes: [
+    { letra: "a", texto: "Reajo imediatamente" },
+    { letra: "b", texto: "Tento entender racionalmente" },
+    { letra: "c", texto: "Preciso falar sobre o assunto" },
+    { letra: "d", texto: "Guardo para mim e processo sozinho" }
+  ]},
+  { texto: "Em relação a riscos, eu:", opcoes: [
+    { letra: "a", texto: "Aceito facilmente para conquistar mais" },
+    { letra: "b", texto: "Calculo cada cenário possível" },
+    { letra: "c", texto: "Decido pelo que sinto no momento" },
+    { letra: "d", texto: "Evito sempre que possível" }
+  ]},
+  { texto: "Quando estou bem emocionalmente, eu:", opcoes: [
+    { letra: "a", texto: "Sou mais ousado nas decisões" },
+    { letra: "b", texto: "Mantenho o mesmo padrão analítico" },
+    { letra: "c", texto: "Fico ainda mais conectado com pessoas" },
+    { letra: "d", texto: "Mantenho minha rotina estável" }
+  ]},
+  { texto: "Quando estou mal emocionalmente, eu:", opcoes: [
+    { letra: "a", texto: "Tendo a agir por impulso" },
+    { letra: "b", texto: "Fico paralisado pela análise" },
+    { letra: "c", texto: "Sou muito afetado nas decisões" },
+    { letra: "d", texto: "Me recolho e evito decisões importantes" }
+  ]},
+  { texto: "Diante de uma perda, eu:", opcoes: [
+    { letra: "a", texto: "Quero recuperar imediatamente" },
+    { letra: "b", texto: "Analiso até entender o porquê" },
+    { letra: "c", texto: "Preciso processar emocionalmente" },
+    { letra: "d", texto: "Levo tempo para retomar o ritmo" }
+  ]},
+  { texto: "Em relação a conselhos de outras pessoas, eu:", opcoes: [
+    { letra: "a", texto: "Escuto mas decido por mim" },
+    { letra: "b", texto: "Valorizo se tiver fundamento técnico" },
+    { letra: "c", texto: "Considero bastante na decisão" },
+    { letra: "d", texto: "Prefiro confiar na minha experiência" }
+  ]},
+  { texto: "Quando atinjo um objetivo, eu:", opcoes: [
+    { letra: "a", texto: "Já parto para o próximo" },
+    { letra: "b", texto: "Reviso o que funcionou e o que não" },
+    { letra: "c", texto: "Comemoro com pessoas próximas" },
+    { letra: "d", texto: "Reforço o que está dando certo" }
+  ]},
+  { texto: "Em relação ao tempo, eu sou:", opcoes: [
+    { letra: "a", texto: "Impaciente, gosto de resultado rápido" },
+    { letra: "b", texto: "Estratégico, penso no longo prazo" },
+    { letra: "c", texto: "Flexível conforme o momento" },
+    { letra: "d", texto: "Paciente, prefiro segurança" }
+  ]},
+  { texto: "Quando algo me empolga muito, eu:", opcoes: [
+    { letra: "a", texto: "Quero começar agora" },
+    { letra: "b", texto: "Investigo antes de me comprometer" },
+    { letra: "c", texto: "Compartilho com todo mundo" },
+    { letra: "d", texto: "Avalio se é sustentável no longo prazo" }
+  ]}
 ];
+</script>
+<script>
+// ============ TEXTOS DOS 17 PERFIS (INJETAR AQUI O PERFIS_TEXTOS) ============
 
-// ══ ESTADO ══
-let currentPergunta = 0;
-let respostas = {};
-let userData = {};
+const PERFIS_TEXTOS = {
+  "Executor — Dominante Isolado": {
+    visao: "Seu perfil revela uma concentração comportamental extrema no padrão Executor — uma das configurações psicológicas mais intensas que existem aplicadas ao processo decisório. Praticamente todas as suas respostas convergem para um único impulso: agir.\n\nIsso significa que sua mente foi treinada — pela genética, pela história ou pelo ambiente — para tratar a inação como ameaça. Onde a maioria das pessoas processa cenários antes de decidir, você já decidiu. A análise, quando aparece, é rápida e funcional: serve apenas para confirmar uma direção que já foi escolhida internamente.\n\nEsse padrão tem origem em uma estrutura emocional que associa segurança ao movimento. Parar dói. Esperar incomoda. A inquietação não é fraqueza — é um sinal fisiológico de que algo precisa ser feito. Em ambientes que recompensam velocidade, esse perfil produz resultados excepcionais. Em ambientes que exigem paciência probabilística, como o mercado financeiro, ele se transforma em um desafio comportamental real.\n\nA classificação como Dominante Isolado indica que essa característica não é uma tendência — é uma identidade operacional. E perfis assim não evoluem tentando se transformar em outra coisa: evoluem aprendendo a canalizar o que já são.",
+    operacional: "No ambiente operacional, esse perfil se manifesta como hiperatividade decisória. Você não opera o mercado — você se relaciona com ele em estado de prontidão contínua. Cada candle é um convite, cada movimento é uma chamada à ação.\n\nO sintoma mais visível é o volume excessivo de operações. Você abre posições não apenas quando há oportunidade real, mas quando há ausência de oportunidade — porque a ausência é insuportável. O mercado lateral, o silêncio entre movimentos, o tempo de espera entre setups: tudo isso ativa um desconforto que precisa ser dissolvido com ação.\n\nA qualidade técnica das suas entradas tende a ser irregular. Em janelas claras de mercado, sua velocidade é vantagem — você executa enquanto outros ainda estão analisando. Em janelas confusas, sua velocidade vira armadilha — você entra antes que o setup se forme completamente.\n\nExiste também uma relação peculiar com o stop: ele é entendido racionalmente, mas resistido emocionalmente. Aceitar o stop é admitir que você errou — e admitir que errou é, para esse perfil, o equivalente a admitir que parou.",
+    pressao: "Sob pressão, o Executor Isolado não se modifica — ele se intensifica. A pressão é o combustível que potencializa a única resposta disponível no seu repertório: agir mais.\n\nQuando vem uma sequência de perdas, o comportamento esperado de outros perfis seria a pausa, a reavaliação, a redução de exposição. Para você, é o oposto. A perda gera urgência. A urgência gera necessidade de recuperação. A necessidade de recuperação gera aumento de lote, redução de critério e uma sequência de operações cada vez mais agressivas — todas movidas pela mesma lógica: precisa resolver agora.\n\nEsse é o terreno do revenge trade — um dos comportamentos mais destrutivos do trading, e o risco central desse perfil. Não é falta de inteligência: pessoas com esse perfil costumam ter QI alto e domínio técnico relevante. É um curto-circuito emocional onde a parte do cérebro responsável por agir suprime a parte responsável por avaliar consequências.\n\nA recuperação após o evento também é específica: você raramente entra em depressão prolongada. Você se recompõe rapidamente — o que é uma força — mas frequentemente sem extrair o aprendizado da experiência.",
+    fortes: ["Execução sem travamento — onde outros congelam, você age, e isso é um ativo real em janelas curtas de oportunidade","Energia operacional praticamente inesgotável que sustenta presença diária no mercado","Resiliência emocional elevada — você não desiste após perdas, retoma o processo rapidamente","Capacidade de tomar decisões em ambientes de alta incerteza sem entrar em paralisia","Comprometimento total e visceral com o processo — você não opera por hobby, opera por identidade"],
+    atencao: ["Impulsividade estrutural — não é estado emocional, é como seu sistema decisório foi configurado","Risco severo de overtrade, especialmente em dias de mercado lateral ou de baixa volatilidade","Tendência intensa ao revenge trade após perdas, com aumento descontrolado de exposição","Resistência interna ao stop — ele é entendido pela razão e rejeitado pela emoção","Resiliência sem reflexão — voltar rápido sem aprender com o erro repete o ciclo"],
+    erros: ["Revenge trade após perdas — aumento de lote e quebra de regras na tentativa compulsiva de recuperação","Overtrade severo — número de operações muito acima do que qualquer método sustenta","Entradas antecipadas, antes que o setup esteja tecnicamente completo","Violação sistemática do stop por convicção emocional de que o mercado vai reverter","Operar para preencher o tempo, não para capturar oportunidade real"],
+    mercado: "Esse perfil funciona em mercados com gatilhos objetivos, movimentos definidos e janelas de oportunidade claras. Volatilidade moderada-alta com tendência identificável é o ambiente ideal — há ação suficiente para sua energia, e há clareza suficiente para que essa energia não vire ruído.\n\nO mercado lateral é o seu inimigo estrutural. Não pela técnica, mas pelo desconforto que ele gera. Em sessões de pouco movimento, sua tendência é forçar operações onde elas não existem.",
+    direcionamento: "O foco evolutivo desse perfil não é aprender mais sobre o mercado. É construir um sistema externo de contenção que substitua o autocontrole que ele estruturalmente não possui em quantidade suficiente.\n\nIsso significa regras inegociáveis: número máximo de operações por dia, perda máxima diária com encerramento automático, horário fixo de saída do mercado. Idealmente, esses limites devem ser monitorados por uma estrutura externa — uma plataforma com bloqueio automático, um mentor que acompanha, uma família que sabe o limite estabelecido.\n\nA habilidade comportamental mais valiosa que você pode desenvolver é a capacidade de não operar conscientemente. Permanecer fora do mercado sem que isso gere desconforto físico. Esse é o trabalho de uma vida operacional — e é o que separa Executores que destroem capital dos Executores que constroem patrimônio.",
+    frase: "Sua maior vantagem é a ação. Seu maior risco também.",
+    comp: {V:95,R:80,P:15,D:30,TP:40,TI:35,A:82,Ad:68}
+  },
+  "Planejador — Dominante Isolado": {
+    visao: "Seu perfil revela uma concentração comportamental extrema no padrão Planejador — uma estrutura mental em que toda decisão é precedida por análise, validação e busca de coerência lógica. Praticamente todas as suas respostas convergem para um mesmo princípio: antes de agir, é preciso entender.\n\nEsse não é apenas um traço de personalidade — é um sistema de proteção emocional sofisticado. Sua mente trata a incerteza como ameaça e a análise como antídoto. Quanto mais variáveis você consegue mapear, mais segurança você sente. O problema é que existe um ponto em que análise adicional para de gerar segurança real e passa a gerar apenas a sensação dela.\n\nPessoas com esse perfil costumam ter inteligência analítica elevada, capacidade de reconhecimento de padrões e disciplina natural. Em ambientes que recompensam precisão, esse perfil é altamente eficiente. No mercado financeiro — um ambiente intrinsecamente probabilístico, onde nenhuma análise produz certeza — esse perfil enfrenta o desafio comportamental mais sutil de todos: a paralisia decisória mascarada de rigor.\n\nA classificação como Dominante Isolado indica que essa característica é estrutural. Você não escolhe analisar — você precisa analisar.",
+    operacional: "No ambiente operacional, esse perfil se manifesta como subatividade decisória qualificada. Você não opera pouco por falta de capacidade — opera pouco por excesso de critério. Cada setup precisa atender múltiplas confirmações simultâneas, e o mercado raramente oferece todas elas no mesmo instante.\n\nO sintoma mais característico é a oportunidade perdida — aquele momento em que o gráfico mostrou exatamente o que você esperava, mas faltava um detalhe da sua checklist, e quando o detalhe apareceu o movimento já tinha acontecido. Esse evento se repete com tanta frequência que você desenvolve uma relação ambígua com ele: por um lado fica frustrado; por outro, se sente protegido por não ter entrado.\n\nExiste também uma característica peculiar: o trabalho mental contínuo sobre operações que você não fez. Outros traders analisam suas operações executadas. Você analisa também as não executadas — gastando energia cognitiva significativa avaliando trades hipotéticos.\n\nA qualidade técnica das poucas operações que você executa tende a ser alta. O problema não é a precisão da execução — é o volume insuficiente para gerar resultado consistente no longo prazo.",
+    pressao: "Sob pressão, o Planejador Isolado não se desorganiza — ele se intensifica analiticamente. A pressão não gera impulso; gera mais necessidade de informação. E essa é uma resposta que parece protetora, mas frequentemente é o que paralisa a ação no momento exato em que ela seria necessária.\n\nQuando vem uma sequência de perdas, sua reação não é agressiva — é introspectiva. Você não aumenta lote, não viola stop. Você desliga. Entra em um período de revisão profunda do método, busca explicações detalhadas para cada operação que deu errado, e eventualmente começa a questionar se o sistema todo está certo.\n\nEsse questionamento, quando ocorre na frequência errada, é destrutivo. Mudar de método antes que ele tenha tempo de provar sua eficiência estatística é o equivalente a desistir de cada estratégia exatamente quando ela estava prestes a funcionar. Esse perfil costuma ter histórico de múltiplos métodos abandonados — todos teoricamente sólidos, nenhum aplicado tempo suficiente.",
+    fortes: ["Capacidade analítica elevada para identificar padrões com precisão e profundidade","Disciplina natural para seguir regras quando elas estão claramente definidas","Resistência estrutural à impulsividade — você raramente perde capital por descontrole","Potencial para construir sistemas operacionais altamente refinados e bem documentados","Pensamento probabilístico em desenvolvimento — você consegue aprender a operar com incerteza"],
+    atencao: ["Paralisia analítica — análise excessiva impede execução em janelas curtas de oportunidade","Busca contínua por certeza em um ambiente que é estatisticamente incerto por natureza","Rigidez metodológica — dificuldade em adaptar processo quando o mercado muda de regime","Análise pós-operação excessiva que gera autocrítica destrutiva e indecisão futura","Abandono prematuro de métodos antes que tenham tempo de provar sua eficiência estatística"],
+    erros: ["Não executar setups tecnicamente válidos por exigir confirmações adicionais","Mudar de estratégia antes de testá-la em volume suficiente para conclusão estatística","Consumir energia cognitiva analisando operações hipotéticas que não foram realizadas","Aumentar critérios após perdas, tornando o sistema progressivamente mais difícil de executar","Confundir prudência com paralisia — não entrar não é sempre não errar"],
+    mercado: "Esse perfil funciona em métodos de baixa frequência e alta qualidade — onde poucas operações de alto convicção produzem resultado consistente. Mercados com padrões técnicos bem definidos, relação risco/retorno favorável e tempo suficiente entre sinais para validação adequada são o ambiente ideal.\n\nDay trade de alta frequência tende a ser o pior ambiente para esse perfil. A velocidade exigida entra em conflito direto com a necessidade analítica.",
+    direcionamento: "O foco evolutivo desse perfil é o desenvolvimento da execução probabilística. Aprender que existem dois tipos diferentes de erro no trading: errar por agir sem ter certeza, e errar por não agir esperando ter certeza. O segundo é tão custoso quanto o primeiro — e frequentemente mais difícil de perceber.\n\nNa prática, isso significa estabelecer uma quantidade máxima de critérios para cada setup — três, quatro, cinco — e se comprometer a executar quando esses critérios estiverem atendidos, sem buscar uma confirmação adicional. A disciplina que você aplica à análise precisa ser aplicada também à execução.\n\nTreinar a aceitação de perdas como dado estatístico, não como erro pessoal, é fundamental. Cada trade individual não tem peso. O que tem peso é a aplicação consistente do método ao longo de centenas de operações.",
+    frase: "Seu maior ativo é a precisão. Seu maior risco é a paralisia que ela pode causar.",
+    comp: {V:25,R:75,P:92,D:95,TP:68,TI:30,A:62,Ad:28}
+  },
+  "Comunicador — Dominante Isolado": {
+    visao: "Seu perfil revela uma concentração comportamental extrema no padrão Comunicador — uma estrutura emocional em que a tomada de decisão acontece através do filtro do sentir e do contexto relacional. Praticamente todas as suas respostas convergem para um princípio comum: a decisão precisa fazer sentido emocionalmente e estar conectada com o ambiente humano ao redor.\n\nEsse perfil tem uma característica que pode parecer paradoxal: alta inteligência emocional combinada com alta vulnerabilidade emocional. Você percebe nuances afetivas que outros perfis não veem. Você lê estados internos com precisão — os seus e os dos outros. Mas essa sensibilidade refinada também significa que você é facilmente afetado por estímulos emocionais que outros perfis nem registram.\n\nNo mercado financeiro, isso cria uma equação complexa. Sua capacidade de perceber mudanças de sentimento — quando o medo se instala em uma sala virtual, quando a euforia muda de tom — é um ativo cognitivo real. Mas sua tendência a ser arrastado por esses mesmos sentimentos é o que torna o trading particularmente desafiador para você.\n\nA classificação como Dominante Isolado indica que essa não é uma sensibilidade pontual — é uma forma estrutural de processar o mundo.",
+    operacional: "No ambiente operacional, esse perfil se manifesta como alta variabilidade vinculada ao estado emocional. Você não tem um único modo operacional — você tem vários, e qual deles está ativo depende de fatores que muitos traders consideram irrelevantes: o humor do dia, a qualidade do sono, uma conversa que você teve antes do pregão, a tonalidade emocional do grupo do qual participa.\n\nDias em que você acorda emocionalmente equilibrado e isolado de ruído externo tendem a produzir execuções de qualidade. Dias em que há conflito interpessoal, ansiedade prévia ou exposição excessiva a opiniões de terceiros antes do pregão tendem a produzir decisões que, em análise retrospectiva, você não consegue nem justificar tecnicamente.\n\nO risco operacional central desse perfil é a influência externa não percebida. Você lê uma análise de outro trader e, sem perceber, ela se mistura à sua. Você vê um movimento de euforia no grupo e, sem reconhecer, sua tolerância ao risco muda.\n\nExiste também uma característica específica: a saída precoce de operações lucrativas. Não por critério técnico, mas por desconforto emocional crescente conforme o lucro aumenta. O ganho desperta uma ansiedade que poucos perfis sentem — o medo de perder o que já se conquistou.",
+    pressao: "Sob pressão, o Comunicador Isolado se fragmenta emocionalmente. Diferente de outros perfis, sua resposta ao estresse não é técnica — é interpessoal. Você precisa compartilhar, processar verbalmente, buscar contato com alguém que valide ou consolide o que está sentindo.\n\nEm momentos de perda, especialmente sequencial, a tendência é abrir grupos, conversar com outros traders, expor a dor que está sentindo. Isso tem uma função emocional real — você processa através da conexão — mas tem um custo operacional alto: as ideias de outros entram no seu sistema decisório enquanto você ainda está emocionalmente vulnerável, e estratégias alheias passam a guiar suas próximas operações no meio do pregão.\n\nEsse é um dos comportamentos mais destrutivos desse perfil: adotar a estratégia de outra pessoa enquanto está emocionalmente abalado. Você sai do seu método sem perceber que saiu.",
+    fortes: ["Sensibilidade emocional refinada para perceber mudanças de sentimento no mercado","Capacidade de aprender rapidamente através de outros e absorver perspectivas diversas","Energia e entusiasmo que sustentam motivação no longo prazo do desenvolvimento","Leitura intuitiva de ambiente que, aliada à técnica, gera diferencial competitivo","Habilidade natural para construir rede de aprendizado e suporte"],
+    atencao: ["Dependência emocional elevada que vincula qualidade operacional ao estado interno","Vulnerabilidade extrema à influência de terceiros em momentos de pressão","Saída precoce de operações lucrativas por desconforto emocional com o ganho","Adoção de estratégias alheias durante o pregão quando emocionalmente fragilizado","Inatividade prolongada após perdas por processamento emocional excessivo"],
+    erros: ["Entrar em operações baseado em análise de terceiros sem validação técnica própria","Sair de operações lucrativas antes do alvo por ansiedade emocional crescente","Mudar de método por influência emocional de pessoa que respeita, antes de validar tecnicamente","Decidir sob influência do humor do dia em vez de critério operacional fixo","Processar perdas em grupo enquanto ainda emocionalmente abalado, contaminando próximas decisões"],
+    mercado: "Esse perfil funciona em ambientes operacionais com forte isolamento de ruído externo durante o pregão. Não é o método que define o resultado — é a capacidade de executar o método sem influência. Setups simples, objetivos, com poucos critérios de entrada e saída claros são ideais.\n\nGrupos de trading durante o pregão são especialmente perigosos para esse perfil. O aprendizado deve acontecer fora do horário operacional.",
+    direcionamento: "O foco evolutivo desse perfil é o desenvolvimento da autonomia decisória — a capacidade de manter o plano sem precisar de validação externa durante a execução.\n\nNa prática, isso significa criar rituais rígidos de isolamento operacional: o plano do dia é definido antes da abertura, e durante o pregão você não consulta grupos, não checa redes sociais, não pede opinião. Isso pode parecer extremo, mas para esse perfil é absolutamente necessário.\n\nÉ fundamental também separar aprendizado de execução. Aprenda muito, com muitas pessoas, em muitos formatos — fora do horário de operação. Durante o pregão, você está sozinho com seu método.",
+    frase: "Sua maior força é sentir o mercado. Seu maior risco é deixar o mercado te sentir.",
+    comp: {V:62,R:48,P:32,D:35,TP:25,TI:42,A:22,Ad:78}
+  },
+  "Analista — Dominante Isolado": {
+    visao: "Seu perfil revela uma concentração comportamental extrema no padrão Analista — uma estrutura interna em que a busca por segurança, consistência e previsibilidade orienta praticamente todas as decisões. Onde outros perfis priorizam ação, análise ou conexão, você prioriza estabilidade.\n\nEsse perfil tem uma qualidade rara: a capacidade de manter rotina. Em um mundo que recompensa novidade e velocidade, você é o tipo de pessoa que constrói histórico — através de presença consistente, decisões cautelosas e relacionamento de longo prazo com aquilo que escolhe.\n\nMas há um aspecto sutil desse padrão: a estabilidade que você busca não é apenas externa, é também interna. Existe um sistema emocional sofisticado que trata mudança como ameaça, mesmo quando a mudança seria benéfica. Quando algo funcionou no passado, há uma preferência poderosa por mantê-lo, mesmo após sinais claros de que precisa ser ajustado. Não é teimosia — é uma forma de proteção. O conhecido protege; o desconhecido expõe.\n\nNo mercado financeiro, esse perfil tem vantagens estruturais reais — disciplina, paciência, gestão de risco intuitivamente prudente. Mas enfrenta um desafio específico: o mercado é um ambiente em constante mudança de regime, e adaptação é uma habilidade essencial.",
+    operacional: "No ambiente operacional, esse perfil se manifesta como consistência metódica extrema. Você opera nos mesmos horários, nos mesmos ativos, com os mesmos critérios, na maioria das sessões da semana. Essa regularidade é, em si mesma, um diferencial — a maioria dos traders luta pela metade dessa consistência.\n\nO sintoma característico é a previsibilidade do seu próprio comportamento. Você não tem grandes oscilações operacionais. Não há dias de overtrade seguidos de dias de paralisia. Há um ritmo estável, com baixa variação. Isso protege o capital de perdas catastróficas e cria uma base sólida para desenvolvimento de longo prazo.\n\nMas há um custo: a dificuldade em aproveitar oportunidades fora do padrão. Quando o mercado oferece um movimento atípico, sua tendência é não entrar. Não porque o setup esteja errado, mas porque está fora da zona de conforto operacional.\n\nExiste também uma característica peculiar com saídas: você tende a encerrar operações lucrativas antes do alvo. Não por ansiedade emocional, mas por uma lógica de preservação — já ganhou, melhor garantir.",
+    pressao: "Sob pressão, o Analista Isolado se recolhe. Diferente de outros perfis que reagem com ação ou análise intensificada, sua resposta natural é a retirada. O movimento interno é: parar, aguardar, esperar que o ambiente se normalize antes de qualquer nova decisão.\n\nEm momentos de perda sequencial, a reação não é agressiva nem ansiosa — é defensiva. Você reduz exposição, diminui frequência, em alguns casos para completamente. Isso é, em muitos aspectos, uma proteção legítima do capital — perfis assim raramente quebram a banca por descontrole.\n\nMas há um custo escondido: a inatividade prolongada após perdas pode se transformar em um padrão de evitação que compromete a continuidade do processo.",
+    fortes: ["Disciplina quase inabalável para construir histórico operacional estável e replicável","Resistência estrutural à impulsividade — proteção real contra perdas catastróficas","Capacidade de seguir regras com consistência diária ao longo de meses e anos","Preservação de capital como base sólida para qualquer crescimento de longo prazo","Paciência natural elevada — você espera melhor do que a maioria dos traders"],
+    atencao: ["Rigidez metodológica — manutenção de métodos após mudança de regime de mercado","Aversão ao risco que limita significativamente o potencial de resultado","Resistência à adaptação — mudança gera desconforto estrutural, não apenas resistência situacional","Inatividade prolongada após perdas como padrão de proteção que vira evitação","Saídas antecipadas em operações lucrativas por lógica de preservação acima do necessário"],
+    erros: ["Sair de operações lucrativas antes do alvo por necessidade de garantir o ganho","Manter métodos ineficientes por excesso de tempo após mudança clara do regime de mercado","Reduzir excessivamente a exposição após perdas, comprometendo continuidade","Não aproveitar oportunidades válidas que estão fora do padrão operacional habitual","Aguardar normalização do mercado em momentos que já são a nova normalidade"],
+    mercado: "Esse perfil funciona em métodos altamente testados, mercados com tendências definidas e volatilidade previsível. Operações de continuidade, swing de longo prazo e estratégias estatisticamente validadas em janelas amplas são ideais.\n\nMercados em transição de regime, alta volatilidade súbita ou ativos em mudança estrutural são particularmente desafiadores.",
+    direcionamento: "O foco evolutivo desse perfil é o desenvolvimento da flexibilidade adaptativa — a capacidade de revisar o processo sem que isso seja interpretado emocionalmente como ameaça à segurança.\n\nNa prática, isso significa estabelecer revisões periódicas obrigatórias do método — não em reação a resultados ruins, mas como parte estrutural do processo. Trimestralmente, semestralmente, anualmente.\n\nÉ fundamental também desenvolver tolerância gradual a novos cenários — não através de saltos, mas através de exposição incremental. Comece operando 5% do capital em métodos ligeiramente diferentes. Permita-se errar em pequena escala, para que o sistema emocional aprenda que mudança não é ameaça.",
+    frase: "Sua maior força é a consistência. Seu maior risco é confundir consistência com imobilidade.",
+    comp: {V:22,R:88,P:92,D:90,TP:80,TI:68,A:75,Ad:25}
+  },
+  "Executor + Planejador": {
+    visao: "Seu perfil combina a orientação para ação do Executor com a estrutura analítica do Planejador. Essa é uma das combinações mais valiosas para o trading — você possui simultaneamente a capacidade de agir e a capacidade de validar antes de agir.\n\nA dominância está no Executor, o que significa que sua resposta padrão é movimento. Mas a presença significativa do Planejador cria um sistema interno de freios que outros perfis Executores não possuem. Onde um Executor Isolado entraria sem pensar, você pensa rapidamente — e essa milésima de análise faz toda a diferença na qualidade das suas decisões.\n\nO desafio desse perfil é específico e sutil: ele não está em uma característica única, mas na alternância entre os dois padrões. Em dias diferentes, em humores diferentes, em pressões diferentes, qual dos dois lidera muda. Em sessões em que o Executor predomina, há tendência ao overtrade. Em sessões em que o Planejador toma frente, há risco de paralisia.\n\nQuando bem integrado, esse é um perfil com potencial elevado de consistência.",
+    operacional: "No ambiente operacional, esse perfil tende a ter um volume de operações moderado-alto, com qualidade técnica acima da média de um Executor puro. Você não trava na análise excessiva, mas também não entra sem alguma validação rápida.\n\nO sintoma característico é a inconsistência entre sessões. Em alguns dias, você opera com rigor analítico do Planejador. Em outros, o Executor predomina e você se vê fazendo operações que, em retrospecto, não eram justificadas.\n\nExiste também uma assimetria temporal interessante: você tende a ser mais rigoroso no início do pregão, quando ainda está mentalmente fresco. Conforme o dia avança, o Executor ganha força — e as últimas operações do dia frequentemente são as menos qualificadas.",
+    pressao: "Sob pressão, o padrão Executor tende a emergir com força e suprimir o componente Planejador. Esse é um mecanismo neurológico previsível: pressão ativa resposta rápida, e a análise é a primeira função cognitiva a ser sacrificada.\n\nNa prática, isso significa que justamente nos momentos em que mais critério seria necessário, a qualidade analítica do seu processo decai. Desenvolver consciência desse mecanismo é crítico.",
+    fortes: ["Combinação rara de agilidade executiva com critério analítico no mesmo processo","Capacidade de agir sem travar, aliada à tendência natural de validar antes de executar","Perfil estruturalmente mais equilibrado do que dominâncias isoladas","Potencial elevado de consistência quando os dois padrões funcionam de forma integrada","Adaptabilidade superior a perfis com dominância extrema, em diferentes regimes de mercado"],
+    atencao: ["Inconsistência entre sessões — qual padrão predomina varia conforme estado emocional","Alternância entre overtrade (Executor) e paralisia (Planejador) sem padrão fixo","Tendência a ser mais rigoroso no início do pregão e mais impulsivo no final","Sob pressão, o componente Planejador é suprimido, comprometendo qualidade decisória","Falta de processo fixo que garanta a presença do critério analítico em todos os dias"],
+    erros: ["Entradas antecipadas em dias em que o Executor predomina sobre o Planejador","Paralisia em setups válidos em dias em que o Planejador predomina sobre o Executor","Variação de critério de entrada ao longo da semana sem perceber a mudança","Operações de qualidade decrescente conforme o pregão avança e a fadiga mental cresce","Sob pressão, perda do componente analítico justamente quando ele seria mais necessário"],
+    mercado: "Esse perfil se beneficia de setups com critérios objetivos e gatilhos de entrada claros, que permitam execução ágil sem abrir mão da validação. Ambientes com tendências definidas e volatilidade moderada são ideais.",
+    direcionamento: "O foco evolutivo desse perfil é a padronização do processo decisório — criar um checklist fixo que seja seguido independentemente do estado emocional ou do padrão ativo no dia.\n\nNa prática, isso significa um protocolo de entrada com 3 a 5 critérios objetivos, executado da mesma forma em todas as sessões. Esse protocolo é a manifestação externa do componente Planejador — quando o Executor interno quer acelerar, o protocolo serve como freio externo.",
+    frase: "Você tem a velocidade e o critério. O desafio é decidir qual dos dois lidera em cada momento.",
+    comp: {V:78,R:72,P:55,D:70,TP:62,TI:52,A:72,Ad:62}
+  },
+  "Executor + Comunicador": {
+    visao: "Seu perfil combina a orientação para ação do Executor com a sensibilidade emocional do Comunicador. Essa combinação é intensa: você age rapidamente, e cada ação carrega uma carga emocional significativa. Operar, para você, não é uma atividade técnica — é uma experiência vivida com profundidade afetiva.\n\nA dominância está no Executor, então o impulso para agir é o que define seu ritmo. Mas a influência do Comunicador adiciona uma camada emocional que muda completamente a natureza desse impulso. Onde um Executor puro age com energia funcional, você age com energia emocional. Cada ganho gera euforia. Cada perda gera dor real. Cada operação é viva.\n\nEsse perfil tem uma força específica que poucos têm: o engajamento. Você não opera por hobby ou por curiosidade — você opera com paixão. Mas também significa que o trading se torna emocionalmente custoso de uma forma que outros perfis não experimentam.\n\nO desafio central é o reverse trade emocionalmente carregado.",
+    operacional: "No ambiente operacional, esse perfil se manifesta como alta variabilidade vinculada ao estado emocional do dia. Algumas sessões são de altíssima qualidade técnica, sustentadas pela energia positiva e pela conexão com o fluxo do mercado. Outras são de qualidade muito inferior, contaminadas pelo estado emocional disponível naquele momento.\n\nO sintoma característico é a dependência do humor matinal. Como você acorda determina, em larga medida, como você opera.\n\nExiste também uma característica específica: a saída precoce em operações lucrativas seguida de retorno emocional ao mercado. Você fecha cedo por ansiedade, vê o movimento continuar, e entra de novo já fora do plano.",
+    pressao: "Sob pressão, a combinação Executor + Comunicador é particularmente explosiva. A urgência de agir do Executor se une à intensidade emocional do Comunicador, e o resultado é frequentemente o pior tipo de revenge trade — aquele movido por dor pessoal, não por análise racional.\n\nDecisões tomadas para resolver desconforto emocional raramente são tecnicamente sólidas. Você opera para se sentir melhor, não para ganhar dinheiro.",
+    fortes: ["Alta energia operacional sustentada pelo entusiasmo natural e pela conexão emocional","Persistência elevada — você raramente desiste, mesmo após períodos difíceis","Capacidade de manter motivação no longo prazo, fundamental para desenvolvimento sustentável","Engajamento total que pode ser canalizado em estudo, prática e refinamento contínuo","Sensibilidade emocional que, quando bem direcionada, é leitura intuitiva de mercado"],
+    atencao: ["Impulsividade amplificada pelo componente emocional nas decisões","Variabilidade extrema de qualidade operacional entre sessões","Revenge trade com alta intensidade emocional como risco principal recorrente","Saída precoce em operações lucrativas seguida de retorno emocional ao mercado","Dependência do humor matinal e de circunstâncias externas para qualidade operacional"],
+    erros: ["Entradas motivadas por euforia sem validação técnica do setup","Saídas antecipadas por ansiedade com lucro, antes do alvo previsto","Revenge trade movido por dor emocional, com aumento de lote sem critério","Retorno emocional ao mercado após saídas precoces, geralmente em pior condição","Variação operacional vinculada ao humor do dia, sem padrão fixo de execução"],
+    mercado: "Esse perfil precisa de ambientes operacionais com regras rígidas e externamente sustentadas. A estrutura precisa estar fora do estado emocional para que ela funcione.",
+    direcionamento: "O foco evolutivo desse perfil é o desenvolvimento de um sistema operacional emocionalmente neutro — regras que substituam parte do processo decisório emocional.\n\nNa prática: limite diário rígido de operações, horário fixo de encerramento, perda máxima diária com bloqueio automático. Esses elementos não são sugestões — são estruturas externas que protegem você de você mesmo nos momentos em que a regulação interna não está disponível.",
+    frase: "Você tem energia e paixão pelo mercado. O desafio é não deixar que elas operem por você.",
+    comp: {V:88,R:62,P:22,D:40,TP:35,TI:42,A:65,Ad:75}
+  },
+  "Executor + Analista": {
+    visao: "Seu perfil combina a orientação para ação do Executor com a busca por segurança do Analista. Essa é uma combinação de tensão interna — duas forças que puxam em direções opostas convivendo dentro do mesmo sistema decisório.\n\nA dominância está no Executor, então o impulso para agir é mais forte que o impulso para preservar. Mas a presença do Analista significa que cada ação carrega um peso de cautela que outros Executores não experimentam. Você quer entrar, e ao mesmo tempo quer ter certeza. Você quer participar, e ao mesmo tempo quer se proteger.\n\nO resultado prático tende a ser uma versão mais moderada do Executor puro. Você comete menos erros impulsivos, mas ainda comete. Você aproveita oportunidades, mas com mais hesitação.\n\nO desafio específico desse perfil é a alternância em ciclos. Em períodos de calma, o Analista predomina e você opera com cautela. Em períodos de frustração acumulada por inatividade, o Executor irrompe — e a ação que vem é frequentemente compensatória.",
+    operacional: "No ambiente operacional, esse perfil tem volume de operações moderado, com qualidade técnica que oscila conforme qual padrão está ativo. Em condições normais, você opera com critério, respeita o stop, segue o plano. A presença do Analista funciona como um filtro real sobre a impulsividade do Executor.\n\nO sintoma característico é o padrão de ciclos. Você passa períodos operando dentro do limite estabelecido pelo Analista. Aos poucos, uma sensação de frustração se acumula. Então o Executor irrompe. E em poucas sessões, você consome boa parte do ganho construído em semanas.",
+    pressao: "Sob pressão, o padrão Executor emerge com força, suprimindo a cautela natural do Analista. Mas há algo específico que distingue esse perfil de um Executor puro: depois da ação impulsiva, vem o recolhimento profundo. Esse é o ciclo Executor-Analista sob pressão.",
+    fortes: ["Combinação de ação e cautela que naturalmente protege contra erros catastróficos","Gestão de posição mais consciente do que perfis Executores puros","Volume de operações moderado favorece qualidade técnica das entradas","Equilíbrio natural entre velocidade e segurança em condições normais de mercado","Capacidade de aprender com o ciclo — cada irrupção é seguida de revisão pelo Analista interno"],
+    atencao: ["Inconsistência cíclica — alternância entre cautela acumulada e ação impulsiva compensatória","Frustração acumulada por inatividade que gera explosão operacional periódica","Saídas prematuras em operações lucrativas pela lógica defensiva do Analista","Recolhimento excessivo após irrupções do Executor, comprometendo continuidade","Autocrítica severa que estende o tempo de recuperação após erros"],
+    erros: ["Ciclos de cautela longa seguidos de operações impulsivas desproporcionais","Entradas válidas seguidas de saídas antecipadas que cortam o ganho","Frustração acumulada gerando oportunidade especial que é compensação emocional","Recolhimento defensivo prolongado após irrupções, comprometendo consistência","Inconsistência de critério de entrada entre fases Executor e fases Analista"],
+    mercado: "Esse perfil funciona em ambientes com volatilidade moderada e oportunidades regulares — onde a presença consistente compensa naturalmente a tendência ao recolhimento.",
+    direcionamento: "O foco evolutivo desse perfil é a quebra do ciclo cautela-explosão através da criação de participação consistente. Em vez de oscilar entre os dois extremos, o objetivo é estabelecer uma frequência operacional regular que satisfaça parcialmente o Executor sem desafiar o Analista.\n\nNa prática: uma operação por dia, em horário fixo, com critério predefinido. Essa estrutura permite que o Executor seja saciado (há ação) e o Analista seja respeitado (há critério).",
+    frase: "Você sabe agir e sabe recuar. O desafio é saber a hora certa de cada um.",
+    comp: {V:72,R:78,P:52,D:62,TP:58,TI:50,A:75,Ad:52}
+  },
+  "Planejador + Executor": {
+    visao: "Seu perfil combina a capacidade analítica do Planejador com a orientação para ação do Executor. Diferente da combinação inversa, aqui a estrutura é mais favorável ao trading: você analisa antes de agir, mas quando o critério é atendido, você possui a capacidade de executar sem hesitação excessiva.\n\nA dominância no Planejador significa que sua resposta padrão é entender. Mas a presença significativa do Executor significa que esse entendimento não vira eternização — em algum ponto, você age. Essa combinação é particularmente valiosa porque resolve o problema central do Planejador Isolado: a paralisia.\n\nNo mercado financeiro, esse perfil tem potencial de consistência elevada. A análise garante qualidade técnica nas entradas; a ação garante que essas entradas sejam efetivamente executadas.",
+    operacional: "No ambiente operacional, esse perfil tem volume de operações moderado, com alta exigência de critério na entrada e boa capacidade de execução quando esse critério é atendido. Você não é o tipo de trader que opera dezenas de vezes ao dia — opera com seletividade, mas opera.\n\nO sintoma característico é a qualidade técnica acima da média nas operações executadas. Cada entrada tem fundamento. Cada operação foi pensada. Isso protege contra erros impulsivos e cria uma base sólida de execução.",
+    pressao: "Sob pressão, o componente Executor pode emergir e reduzir a profundidade analítica. Mas algo importante distingue esse perfil: aqui, o Planejador domina, então mesmo sob pressão, alguma análise permanece. A redução é parcial, não total.",
+    fortes: ["Análise de qualidade combinada com capacidade real de execução — combinação mais valiosa para o trading","Volume moderado com alta exigência de critério produz qualidade estatística superior","Processo decisório robusto que funciona em condições normais de mercado","Potencial elevado de consistência quando os dois padrões operam de forma integrada","Equilíbrio temporal — análise suficiente sem cair em paralisia"],
+    atencao: ["Sob pressão, o componente Executor pode emergir e reduzir a profundidade da análise","Qualidade do processo varia conforme estado emocional, ainda que com menor amplitude que outros perfis","Em mercados muito rápidos, o tempo de decisão pode ser insuficiente para o componente Planejador","Tendência a aguardar confirmação adicional quando o setup já é tecnicamente válido","Dificuldade em confiar plenamente no próprio processo construído"],
+    erros: ["Aguardar confirmação adicional em setups válidos, perdendo o ponto ótimo de entrada","Sob pressão, executar com critério reduzido por emergência do componente Executor","Variação de critério entre sessões, com qualidade decrescente em condições de fadiga","Excesso de análise pós-operação que gera autocrítica e afeta decisões subsequentes","Em mercados muito rápidos, perder janelas por exigir validação que o tempo não permite"],
+    mercado: "Esse perfil se beneficia de setups bem definidos, com critérios objetivos e tempo suficiente para validação antes da execução. Swing trade, position trade e estratégias de média frequência são particularmente favoráveis.",
+    direcionamento: "O foco evolutivo desse perfil é a padronização do critério de execução — quando estabelecer que o setup está validado, agir sem buscar confirmações adicionais.\n\nNa prática: definir um número fixo de critérios (geralmente 3 a 5) e se comprometer a executar quando todos forem atendidos. Esse compromisso é o que diferencia um Planejador-Executor de um Planejador puro com tendências ativas.",
+    frase: "Você analisa bem e sabe executar. O que falta é confiar no processo que você mesmo construiu.",
+    comp: {V:58,R:75,P:68,D:82,TP:68,TI:55,A:68,Ad:52}
+  },
+  "Planejador + Comunicador": {
+    visao: "Seu perfil combina a capacidade analítica do Planejador com a sensibilidade emocional do Comunicador. É uma combinação rica e complexa: você pensa com profundidade e sente com intensidade. Razão e emoção dividem espaço no seu processo decisório.\n\nA dominância no Planejador estabelece a estrutura: análise, validação, critério. Mas a presença significativa do Comunicador adiciona um filtro emocional que muda a natureza dessa análise. Você não analisa friamente — você analisa carregando o estado emocional do dia.\n\nNo mercado financeiro, esse perfil tem uma vantagem cognitiva sofisticada: leitura técnica + leitura de sentimento. Mas o desafio é específico: a vulnerabilidade da análise técnica à influência emocional.",
+    operacional: "No ambiente operacional, esse perfil tende a ter bom planejamento prévio, com qualidade analítica acima da média na preparação. O problema raramente está no plano — está na execução desse plano durante o pregão.\n\nO sintoma característico é a discrepância entre o que foi planejado e o que foi executado. Conversas, análises de terceiros, mudanças de sentimento coletivo gradualmente fazem o plano original ser ajustado, modificado, e em alguns casos, abandonado.",
+    pressao: "Sob pressão, a análise tende a ser substituída pela emoção. O componente Planejador é gradualmente suprimido conforme o estresse aumenta — e o Comunicador assume. A busca por validação externa se intensifica.",
+    fortes: ["Inteligência analítica combinada com inteligência emocional — leitura sofisticada de mercado","Bom planejamento prévio como base sólida das operações","Sensibilidade para perceber mudanças de ambiente e sentimento coletivo","Capacidade de aprender com profundidade através de integração de perspectivas","Habilidade natural de articular o próprio raciocínio operacional"],
+    atencao: ["Vulnerabilidade da análise técnica à influência emocional durante o pregão","Discrepância recorrente entre plano definido antes do mercado e execução real","Saída prematura em operações por desconforto emocional, não por critério técnico","Influência externa não percebida — ideias de terceiros se misturam ao raciocínio próprio","Recuperação prolongada após perdas pelo processamento emocional necessário"],
+    erros: ["Modificar o plano no meio do pregão por influência emocional ou externa","Sair de operações antes do alvo por desconforto emocional com a exposição","Análise excessiva motivada por necessidade de tranquilidade emocional","Abandonar análise correta após conversa com alguém que oferece visão contrária","Sob pressão, buscar validação externa que contamina o critério próprio"],
+    mercado: "Esse perfil precisa de ambientes operacionais com isolamento de influências externas durante o pregão. O plano deve ser definido antes do mercado abrir, e durante a sessão a comunicação externa precisa ser limitada.",
+    direcionamento: "O foco evolutivo desse perfil é a separação rígida entre planejamento e execução. Durante o planejamento — fora do pregão — você pode e deve conversar, ler análises, integrar perspectivas. Durante a execução, você está sozinho com seu método.",
+    frase: "Seu plano é bom. Confie nele mais do que nas opiniões ao redor.",
+    comp: {V:48,R:62,P:72,D:75,TP:52,TI:52,A:52,Ad:62}
+  },
+  "Planejador + Analista": {
+    visao: "Seu perfil combina a capacidade analítica do Planejador com a busca por segurança do Analista. Essa é uma das combinações mais cautelosas que existem aplicadas ao trading. Você é simultaneamente analítico e prudente, criterioso e protetor, profundo e estável.\n\nA dominância no Planejador estabelece a análise como base. A presença do Analista amplifica essa base com uma camada adicional de proteção: não basta entender, é preciso também sentir-se seguro.\n\nNo mercado financeiro, esse perfil tem vantagens estruturais reais. A combinação de análise profunda com cautela natural cria proteção de capital acima da média. O desafio é igualmente claro: a paralisia operacional.",
+    operacional: "No ambiente operacional, esse perfil tem volume de operações baixíssimo. Você não é um trader ativo no sentido convencional — você é um observador qualificado que ocasionalmente executa. A maior parte do tempo é dedicada a análise, preparação e espera.\n\nQuando você executa, geralmente a entrada é tecnicamente impecável. Múltiplas confirmações, contexto favorável, gestão precisa. A qualidade individual das suas operações é alta. O problema é estatístico: alta qualidade em volume insuficiente não gera resultado consistente.",
+    pressao: "Sob pressão, ambos os padrões se intensificam na mesma direção: mais análise, mais cautela. Os dois lados querem a mesma coisa: parar, analisar mais, esperar.",
+    fortes: ["Disciplina excepcional aliada ao rigor metodológico — combinação rara de virtudes","Proteção de capital estruturalmente acima da média da maioria dos traders","Raríssimas vezes comete erros por impulsividade ou descontrole — diferencial real","Processo bem estruturado favorece desenvolvimento sustentável de longo prazo","Análise profunda combinada com cautela estrutural cria base operacional sólida"],
+    atencao: ["Paralisia operacional como risco principal, amplificada pela convergência dos dois padrões","Volume de operações abaixo do mínimo necessário para manifestação estatística do método","Resistência amplificada à mudança de método mesmo quando o mercado claramente exige","Resultado abaixo do potencial apesar da qualidade técnica e da disciplina","Disciplina exclusivamente direcionada para análise, não para execução"],
+    erros: ["Não executar setups válidos por excesso de cautela e exigência de validação adicional","Manter métodos ineficientes por períodos excessivamente longos após mudança de regime","Reduzir drasticamente a exposição após perdas, comprometendo continuidade necessária","Capital parado por períodos longos enquanto oportunidades passam ao redor","Confundir prudência com paralisia — quase sempre achar que falta uma confirmação"],
+    mercado: "Esse perfil funciona em métodos de baixíssima frequência com altíssima qualidade. Position trade, investimento de longo prazo, estratégias com horizonte de meses ou anos são ideais.",
+    direcionamento: "O foco evolutivo desse perfil é a redução de critérios e o compromisso com a execução. A análise que você faz é mais do que suficiente — o que falta é traduzir essa análise em ação consistente.\n\nNa prática: estabelecer um número fixo de critérios (não mais que 3 ou 4) e se comprometer a executar quando todos forem atendidos.",
+    frase: "Você protege bem o capital. Agora aprenda a fazê-lo crescer.",
+    comp: {V:28,R:80,P:92,D:92,TP:75,TI:42,A:68,Ad:32}
+  },
+  "Comunicador + Executor": {
+    visao: "Seu perfil combina a sensibilidade emocional do Comunicador com a orientação para ação do Executor. Essa combinação tem uma característica única: você não apenas sente intensamente — você age sobre o que sente. A emoção não fica internalizada; ela vira movimento.\n\nA dominância no Comunicador estabelece a emoção como filtro principal de decisão. A presença significativa do Executor garante que essa emoção encontre canal de expressão imediato através da ação.\n\nNo mercado financeiro, esse perfil enfrenta um desafio particular: o impulso emocional encontrando uma plataforma que permite execução imediata.",
+    operacional: "No ambiente operacional, esse perfil se manifesta como alta variabilidade extrema. Você não tem dias parecidos — tem dias que dependem completamente do que está acontecendo emocionalmente.\n\nO sintoma característico é a oscilação entre euforia e desespero dentro da mesma sessão. Um ganho gera empolgação que leva a próximas operações com lote maior. Uma perda gera frustração que leva a próximas operações motivadas por recuperação.",
+    pressao: "Sob pressão, a combinação Comunicador + Executor é uma das mais arriscadas que existem para o trading. A emoção intensa encontra a capacidade de ação imediata, e o resultado é frequentemente o revenge trade em sua forma mais destrutiva.",
+    fortes: ["Alta energia e entusiasmo que mantêm engajamento profundo com o processo","Capacidade de aprender rapidamente através de experiências intensas","Engajamento total que pode ser canalizado em estudo, prática e desenvolvimento","Sensibilidade emocional que percebe mudanças de mercado em níveis sutis","Disposição para ação que elimina o travamento decisório típico de outros perfis"],
+    atencao: ["Decisão emocional combinada com urgência de agir — combinação de risco elevado","Variabilidade operacional extrema vinculada ao estado emocional diário","Revenge trade com alta intensidade emocional como risco recorrente","Comprometimento de capital rápido em ausência de estrutura externa de contenção","Inconsistência total de processo entre sessões emocionalmente diferentes"],
+    erros: ["Entradas motivadas por euforia ou medo sem qualquer validação técnica do setup","Revenge trade com alta intensidade emocional e aumento descontrolado de lote","Sequência de operações reativas em que cada uma tenta resolver a anterior","Decisões emocionais que comprometem completamente a gestão de risco","Saídas prematuras por desconforto emocional, seguidas de retorno emocional ao mercado"],
+    mercado: "Esse perfil precisa de estrutura externa rígida para funcionar de forma produtiva. Limites diários inegociáveis, plataformas com bloqueio automático após perda máxima, mentor que acompanha em tempo real — esses não são luxos, são necessidades estruturais.",
+    direcionamento: "O foco evolutivo desse perfil é o desenvolvimento de um sistema externo de contenção emocional. A regulação interna, por estrutura, não é suficiente para esse perfil em condições de pressão.\n\nNa prática: limite diário rígido de operações (idealmente 3 ou menos), perda máxima diária com bloqueio automático, horário fixo de encerramento.",
+    frase: "Você sente o mercado com intensidade. O desafio é não deixar essa intensidade operar no seu lugar.",
+    comp: {V:82,R:55,P:25,D:35,TP:28,TI:42,A:30,Ad:82}
+  },
+  "Comunicador + Planejador": {
+    visao: "Seu perfil combina a sensibilidade emocional do Comunicador com a capacidade analítica do Planejador. Essa combinação cria uma estrutura interna sofisticada: você sente e analisa simultaneamente, em proporções variáveis dependendo do momento.\n\nA dominância no Comunicador significa que sua resposta inicial a qualquer situação é emocional. Você sente antes de pensar. Mas a presença significativa do Planejador significa que esse sentir não termina ali — ele é seguido por análise.\n\nNo mercado financeiro, esse perfil tem uma vantagem cognitiva específica: a capacidade de fazer leitura técnica enriquecida por leitura emocional.",
+    operacional: "No ambiente operacional, esse perfil tem processo mais estruturado do que um Comunicador puro, com volume de operações moderado. A presença do Planejador adiciona disciplina que limita os excessos emocionais — mas não os elimina completamente.\n\nO sintoma característico é a análise viesada. Você analisa, mas a análise tende a confirmar a percepção emocional do momento.",
+    pressao: "Sob pressão, o componente Planejador é o primeiro a ceder. Quando o estresse aumenta, a análise diminui — e o que permanece é a emoção do Comunicador, mais intensa do que o normal.",
+    fortes: ["Inteligência emocional combinada com capacidade analítica — leitura sofisticada de mercado","Potencial para integração de análise técnica com análise comportamental do mercado","Processo estruturalmente mais sólido do que um Comunicador puro","Capacidade de aprender com profundidade através da integração de perspectivas diversas","Sensibilidade que enriquece a análise quando bem direcionada"],
+    atencao: ["Análise tecnicamente viesada pela coloração emocional do momento","Objetividade comprometida em condições de estresse, com cessão do componente Planejador","Vulnerabilidade à influência externa mesmo com boa análise disponível","Inconsistência entre qualidade da análise e qualidade da execução","Busca de validação técnica para confirmar decisões já tomadas emocionalmente"],
+    erros: ["Construir análises que confirmam o sentimento em vez de questioná-lo","Mudar de plano em resposta a influência externa após análise sólida prévia","Saída prematura em operações por insegurança emocional crescente","Abandonar análise correta após conversa com alguém que oferece visão emocionalmente contrária","Sob pressão, ceder o critério analítico em favor da busca por validação"],
+    mercado: "Esse perfil precisa de ambientes onde o planejamento prévio é rigorosamente respeitado durante a execução, com isolamento de influências externas.",
+    direcionamento: "O foco evolutivo desse perfil é a separação entre análise e execução, e dentro da análise, a separação entre análise técnica e análise emocional.\n\nNa prática: durante o planejamento, faça duas análises — uma estritamente técnica, outra emocional. Pergunte-se: a conclusão técnica seria a mesma se eu estivesse em estado emocional neutro?",
+    frase: "Você pensa bem quando está equilibrado. O desafio é manter esse equilíbrio quando o mercado pressiona.",
+    comp: {V:60,R:58,P:58,D:62,TP:48,TI:52,A:45,Ad:68}
+  },
+  "Comunicador + Analista": {
+    visao: "Seu perfil combina a sensibilidade emocional do Comunicador com a busca por segurança do Analista. Essa combinação cria uma estrutura interna delicada: alta empatia, alta necessidade de harmonia, alta sensibilidade a conflitos.\n\nA dominância no Comunicador estabelece a emoção como filtro principal. A presença significativa do Analista amplifica essa estrutura emocional com uma camada adicional: a busca por estabilidade. Não basta sentir — é preciso também sentir-se seguro.\n\nNo mercado financeiro, esse perfil enfrenta um desafio específico: a aversão a desconforto. O trading é, por natureza, uma atividade desconfortável.",
+    operacional: "No ambiente operacional, esse perfil tende a ser conservador, com volume de operações baixo e tamanho de posição abaixo do necessário. A sensibilidade ao resultado emocional de cada operação é alta — perdas afetam mais do que ganhos motivam.\n\nO sintoma característico é a saída prematura em operações lucrativas. Conforme o ganho aumenta, o desconforto emocional aumenta também.",
+    pressao: "Sob pressão, ambos os padrões convergem para a mesma resposta: recolhimento. O Comunicador busca proteção emocional, o Analista busca proteção financeira.",
+    fortes: ["Empatia e consciência emocional combinadas com disciplina natural do Analista","Raramente comete erros impulsivos — múltiplos filtros antes de qualquer ação arriscada","Proteção de capital estruturalmente acima da média","Sensibilidade emocional como ferramenta de leitura de ambiente quando bem direcionada","Consistência de cautela que protege em mercados voláteis"],
+    atencao: ["Saída prematura em operações lucrativas por desconforto emocional crescente","Inatividade prolongada em momentos de pressão como resposta de proteção","Processamento emocional excessivo após perdas, comprometendo retomada","Aversão ao risco amplificada pelo componente emocional do perfil","Ausência de participação em momentos de alta volatilidade com boa oportunidade técnica"],
+    erros: ["Sair de operações antes do alvo por medo emocional de reversão do movimento","Não entrar em setups tecnicamente válidos por insegurança emocional","Processar perdas de forma excessivamente emocional e prolongada, comprometendo continuidade","Ausência de participação em janelas com oportunidade real por desconforto com a volatilidade","Stops muito curtos por desconforto emocional com posições abertas, sendo estopado em ruído"],
+    mercado: "Esse perfil precisa de ambientes previsíveis, com baixa volatilidade e padrões consistentes. Position trade e estratégias de longo prazo com pouca tensão diária são particularmente favoráveis.",
+    direcionamento: "O foco evolutivo desse perfil é o desenvolvimento de uma relação mais neutra com os resultados individuais. Cada operação é apenas um ponto de uma série maior. O resultado de qualquer trade isolado não define o processo — o processo define o resultado de longo prazo.",
+    frase: "Você cuida bem do capital. Agora aprenda a confiar no processo quando ele pede que você fique na operação.",
+    comp: {V:42,R:62,P:68,D:62,TP:48,TI:52,A:38,Ad:58}
+  },
+  "Analista + Executor": {
+    visao: "Seu perfil combina a busca por segurança do Analista com a orientação para ação do Executor. Essa é uma combinação de tensão estrutural: duas forças opostas convivendo dentro de um mesmo sistema decisório, alternando o controle conforme as circunstâncias.\n\nA dominância no Analista estabelece a cautela como padrão. Em condições normais, você é prudente, disciplinado, conservador. Mas a presença significativa do Executor cria uma reserva de ação que ocasionalmente irrompe — geralmente em momentos de frustração acumulada, pressão prolongada ou oportunidade percebida como excepcional.\n\nO desafio específico é o padrão cíclico. Você não opera consistentemente em um meio-termo — opera predominantemente em modo Analista, com episódios pontuais de modo Executor.",
+    operacional: "No ambiente operacional, esse perfil tende a ter volume de operações baixo a moderado, com qualidade técnica acima da média durante períodos de modo Analista. Você opera com método, segue regras, respeita stops.\n\nO sintoma característico é a irrupção cíclica do Executor. Após semanas ou meses de operação conservadora, uma frustração se acumula. Essa frustração eventualmente vence a cautela do Analista, e o Executor irrompe.",
+    pressao: "Sob pressão prolongada, o Executor interno pode emergir como mecanismo compensatório. Diferente de outras combinações, aqui a pressão não gera apenas mais cautela — gera, em alguns casos, ação compensatória inesperada.",
+    fortes: ["Cautela natural do Analista combinada com capacidade real de ação quando necessária","Tendência a proteger o capital na maioria absoluta do tempo","Capacidade de aproveitar oportunidades claras quando elas se apresentam","Volume moderado favorece qualidade técnica nas entradas em condições normais","Equilíbrio estrutural entre proteção e participação como base do perfil"],
+    atencao: ["Padrão cíclico — alternância entre cautela longa e ação impulsiva compensatória","Frustração acumulada por inatividade que gera irrupção operacional periódica","Inconsistência de processo entre fases Analista e fases Executor","Recolhimento defensivo prolongado após irrupções, comprometendo continuidade","Dificuldade em manter consistência quando os dois padrões alternam de controle"],
+    erros: ["Períodos longos de inatividade seguidos de entradas impulsivas compensatórias","Decisões fora do método em momentos de frustração acumulada, percebidas como oportunidades especiais","Recolhimento excessivo após irrupções, gerando ciclo de inatividade prolongada","Inconsistência de critério que varia conforme qual padrão está ativo no momento","Vergonha e autocrítica após irrupções que adiam a retomada do processo"],
+    mercado: "Esse perfil funciona em ambientes com oportunidades regulares e critérios objetivos — onde a cautela natural pode ser exercida sem gerar frustração acumulada.",
+    direcionamento: "O foco evolutivo desse perfil é a criação de participação consistente que satisfaça parcialmente o Executor sem desafiar o Analista. Em vez de oscilar entre os dois extremos, o objetivo é estabelecer uma frequência operacional regular.",
+    frase: "Você sabe se proteger. O próximo passo é aprender a participar de forma consistente.",
+    comp: {V:62,R:78,P:70,D:72,TP:62,TI:58,A:72,Ad:52}
+  },
+  "Analista + Planejador": {
+    visao: "Seu perfil combina a busca por segurança do Analista com a capacidade analítica do Planejador. Essa é uma das combinações mais conservadoras que existem aplicadas ao trading. Você é simultaneamente cauteloso e profundo, prudente e criterioso, estável e analítico.\n\nA dominância no Analista estabelece a segurança como prioridade absoluta. A presença significativa do Planejador amplifica essa segurança com profundidade analítica adicional.\n\nNo mercado financeiro, esse perfil tem vantagens reais de longevidade. Você sobrevive onde outros perfis quebram. O desafio é igualmente claro: a paralisia operacional.",
+    operacional: "No ambiente operacional, esse perfil tem volume de operações baixíssimo, com qualidade técnica excepcional nas poucas operações executadas. Você não é um trader ativo — você é um observador qualificado que ocasionalmente participa.\n\nO sintoma característico é a relação peculiar com o tempo: você espera. Espera o setup ideal. Espera a confirmação adicional. Essa espera tem qualidade, mas em volume, é o que limita o resultado.",
+    pressao: "Sob pressão, ambos os padrões convergem para a mesma resposta: mais cautela, mais análise, mais espera. Os dois lados querem a mesma coisa.",
+    fortes: ["Disciplina excepcional aliada ao rigor metodológico — combinação rara de virtudes","Proteção de capital estruturalmente acima da média da maioria dos traders","Raríssimas vezes comete erros por impulsividade — diferencial real de longevidade","Processo bem estruturado favorece desenvolvimento sustentável de longo prazo","Análise profunda combinada com cautela estrutural cria base operacional sólida"],
+    atencao: ["Paralisia operacional como risco principal, amplificado pela convergência dos padrões","Volume de operações abaixo do mínimo necessário para manifestação estatística do método","Resistência amplificada à mudança de método mesmo quando o mercado claramente exige","Resultado abaixo do potencial apesar da qualidade técnica e da disciplina","Disciplina exclusivamente direcionada para análise, não para execução"],
+    erros: ["Não executar setups válidos por excesso de cautela e exigência de validação adicional","Manter métodos ineficientes por períodos excessivamente longos após mudança de regime","Reduzir drasticamente a exposição após perdas, comprometendo continuidade necessária","Capital parado por períodos longos enquanto oportunidades passam ao redor","Confundir prudência com paralisia — quase sempre achar que falta uma confirmação adicional"],
+    mercado: "Esse perfil funciona em métodos de baixíssima frequência com altíssima qualidade. Position trade, investimento de longo prazo e estratégias com horizonte de meses são ideais.",
+    direcionamento: "O foco evolutivo desse perfil é a redução de critérios e o compromisso com a execução. A análise é mais do que suficiente — o que falta é traduzir essa análise em ação consistente.",
+    frase: "Você tem o mapa e a bússola. O que falta é dar o primeiro passo mesmo sem ver o caminho inteiro.",
+    comp: {V:25,R:82,P:90,D:92,TP:78,TI:42,A:70,Ad:28}
+  },
+  "Analista + Comunicador": {
+    visao: "Seu perfil combina a busca por segurança do Analista com a sensibilidade emocional do Comunicador. Essa combinação cria uma estrutura interna delicada: alta empatia, alta cautela, forte aversão a conflitos e a perdas.\n\nA dominância no Analista estabelece a estabilidade como prioridade. A presença significativa do Comunicador amplifica essa busca de estabilidade com uma camada emocional: você não busca apenas segurança financeira, busca também harmonia emocional.\n\nNo mercado financeiro, esse perfil enfrenta um desafio específico: o trading é, por natureza, uma atividade que gera desconforto emocional.",
+    operacional: "No ambiente operacional, esse perfil tende a ser conservador, com alta sensibilidade ao resultado emocional de cada operação. Perdas afetam mais do que ganhos motivam.\n\nO sintoma característico é a saída prematura em operações lucrativas. Conforme o ganho aumenta, o desconforto cresce — não pelo ganho em si, mas pela ansiedade de que ele possa ser perdido.",
+    pressao: "Sob pressão, o recolhimento emocional se combina com a busca por segurança. Os dois padrões querem a mesma coisa: parar, recuar, proteger.",
+    fortes: ["Empatia e consciência emocional combinadas com disciplina do Analista","Raríssimas vezes age de forma impulsiva — múltiplos filtros antes de qualquer ação","Proteção de capital como diferencial real e estrutural na gestão de risco","Alta sensibilidade emocional como ferramenta de leitura de ambiente quando direcionada","Consistência de cautela que protege em mercados voláteis ou em transição"],
+    atencao: ["Impacto emocional das perdas desproporcional ao tamanho financeiro real","Aversão ao risco amplificada que limita significativamente participação e resultado","Dificuldade de retomada após resultados negativos pelo processamento emocional","Assimetria entre como perdas e ganhos afetam emocionalmente o sistema decisório","Inatividade prolongada que se torna padrão estrutural após experiências negativas"],
+    erros: ["Sair de operações lucrativas por desconforto emocional antes do alvo definido","Não retomar operações após perdas por processamento emocional prolongado","Reduzir excessivamente a exposição por medo amplificado pela emoção","Ausência de participação em momentos válidos por dupla cautela (análise + emoção)","Impacto desproporcional de perdas que paralisa o processo seguinte"],
+    mercado: "Esse perfil precisa de ambientes previsíveis, com baixa volatilidade e padrões consistentes. Position trade e estratégias de longo prazo com pouca tensão diária são particularmente favoráveis.",
+    direcionamento: "O foco evolutivo desse perfil é o desenvolvimento de uma relação mais neutra com resultados individuais. Cada operação é apenas um ponto de uma série maior.",
+    frase: "Você é cuidadoso e sensível. O mercado precisa da sua disciplina, não do seu medo.",
+    comp: {V:32,R:72,P:82,D:75,TP:65,TI:55,A:58,Ad:40}
+  },
+  "Perfil Equilibrado": {
+    visao: "Seu perfil apresenta uma distribuição equilibrada entre os quatro padrões comportamentais — Executor, Planejador, Comunicador e Analista. Diferente dos perfis com dominância clara, você não tem uma característica que se destaca; você tem todas elas em proporções aproximadamente iguais.\n\nIsso é raro, e tem implicações específicas. Pessoas com perfil equilibrado têm acesso a quatro repertórios comportamentais diferentes, e ativam um ou outro dependendo do contexto. Essa flexibilidade é uma vantagem real em muitas áreas da vida.\n\nNo mercado financeiro, porém, o cenário é diferente. O trading é uma atividade que exige consistência — fazer a mesma coisa, da mesma maneira, repetidamente. E é exatamente nesse ponto que o perfil equilibrado encontra seu maior desafio: a flexibilidade comportamental vira inconsistência operacional.",
+    operacional: "No ambiente operacional, esse perfil se manifesta como inconsistência estrutural. Não inconsistência por descontrole — você não é impulsivo ou desorganizado. É inconsistência por flexibilidade: você opera de formas diferentes em dias diferentes, dependendo de qual padrão comportamental está ativo no momento.\n\nDias Executor produzem maior volume e menor validação. Dias Planejador produzem maior análise e menor execução. Dias Comunicador produzem maior influência externa. Dias Analista produzem maior cautela.",
+    pressao: "Sob pressão, o perfil equilibrado responde de formas diferentes em momentos diferentes. Em algumas ocasiões, a pressão ativa o Executor, gerando impulsividade. Em outras, ativa o Analista, gerando recolhimento.\n\nEssa imprevisibilidade de resposta sob pressão é o principal desafio operacional desse perfil.",
+    fortes: ["Flexibilidade comportamental e capacidade de adaptação a diferentes contextos","Compreensão de múltiplas perspectivas operacionais simultaneamente","Facilidade para absorver aprendizados de fontes diversas","Potencial de desenvolvimento amplo sem limitações de perfil extremo","Capacidade de integrar múltiplas abordagens de forma natural"],
+    atencao: ["Inconsistência de processo como principal risco operacional estrutural","Tendência à dispersão — múltiplos métodos sem dar tempo a nenhum","Variação de estilo decisório que impossibilita identificar o que funciona estatisticamente","Sem processo fixo, qualquer resultado individual pode ser sorte ou consequência","Dificuldade em manter comprometimento de longo prazo com um único método"],
+    erros: ["Em dias Executor: overtrade e entradas com validação reduzida","Em dias Planejador: paralisia analítica e perda de oportunidades válidas","Em dias Comunicador: influência externa e decisões emocionalmente carregadas","Em dias Analista: recolhimento excessivo e saída prematura de posições","Falta de processo fixo que impede aprendizado claro e progresso identificável"],
+    mercado: "Esse perfil tem potencial de se adaptar a diferentes estilos e ambientes operacionais. Mas para performar com consistência, você precisa escolher um método e aplicá-lo sistematicamente, independentemente do padrão comportamental ativo no dia.",
+    direcionamento: "O foco evolutivo desse perfil é a criação de um processo operacional fixo — com critérios de entrada, gestão e saída que não mudam de acordo com o humor ou o contexto do dia.\n\nIdentificar qual dos quatro padrões tende a ser mais produtivo para você operacionalmente e construir um sistema baseado nele, usando os outros como suporte.",
+    frase: "Você tem o melhor de todos os perfis. O desafio é escolher um caminho e seguir ele todos os dias.",
+    comp: {V:60,R:68,P:62,D:65,TP:58,TI:58,A:58,Ad:68}
+  }
+};
 
-// ══ NAVEGAÇÃO ══
+
+// ============ NAVEGAÇÃO ============
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
-function showAdmin() {
-  showScreen('screen-admin');
+function abrirAdmin() {
+  showScreen('screen-admin-login');
+  setTimeout(() => document.getElementById('admin-pwd').focus(), 100);
 }
 
-// ══ FORMULÁRIO ══
+function verificarAdmin() {
+  const pwd = document.getElementById('admin-pwd').value;
+  if (pwd === ADMIN_PASSWORD) {
+    document.getElementById('admin-pwd').value = '';
+    carregarDiagnosticos();
+    showScreen('screen-admin');
+  } else {
+    alert('Senha incorreta');
+  }
+}
+
+// ============ INICIAR ============
 function iniciarPerguntas() {
   const nome = document.getElementById('input-nome').value.trim();
   const email = document.getElementById('input-email').value.trim();
   const whatsapp = document.getElementById('input-whatsapp').value.trim();
 
-  if (!nome || !email) { toast('⚠️ Preencha nome e e-mail'); return; }
-  if (!email.includes('@')) { toast('⚠️ E-mail inválido'); return; }
+  if (!nome) { alert('Por favor, informe seu nome'); return; }
+  if (!email || !email.includes('@')) { alert('Por favor, informe um e-mail válido'); return; }
 
-  userData = { nome, email, whatsapp };
-  document.getElementById('form-dados').style.display = 'none';
-  document.getElementById('form-perguntas').style.display = 'block';
-  renderPergunta(0);
+  estado.nome = nome;
+  estado.email = email;
+  estado.whatsapp = whatsapp;
+  estado.respostas = [];
+  estado.perguntaAtual = 0;
+  estado.inicioPreenchimento = Date.now();
+
+  showScreen('screen-questions');
+  renderizarPergunta();
 }
 
-function renderPergunta(idx) {
-  const p = PERGUNTAS[idx];
-  const pct = Math.round((idx / PERGUNTAS.length) * 100);
+function renderizarPergunta() {
+  const i = estado.perguntaAtual;
+  const p = PERGUNTAS[i];
+  const progresso = ((i) / PERGUNTAS.length) * 100;
 
-  document.getElementById('prog-text').textContent = `Pergunta ${idx + 1} de ${PERGUNTAS.length}`;
-  document.getElementById('prog-pct').textContent = pct + '%';
-  document.getElementById('progress-bar').style.width = pct + '%';
-
-  const letras = ['a','b','c','d'];
-  const html = `
-    <div class="question-block">
-      <div class="question-num">PERGUNTA ${String(idx+1).padStart(2,'0')} / ${PERGUNTAS.length}</div>
-      <div class="question-text">${p.texto}</div>
+  document.getElementById('progress-bar').style.width = progresso + '%';
+  document.getElementById('question-container').innerHTML = `
+    <div class="q-card">
+      <div class="q-num">PERGUNTA ${i+1} DE ${PERGUNTAS.length}</div>
+      <div class="q-text">${p.texto}</div>
       <div class="options">
-        ${letras.map(l => `
-          <div class="option ${respostas[p.id] === l ? 'selected' : ''}" onclick="selecionarResposta(${p.id}, '${l}')">
-            <span class="option-letter">${l.toUpperCase()}</span>
-            <span class="option-text">${p.opcoes[l]}</span>
-          </div>
-        `).join('')}
+        ${p.opcoes.map(o => `<div class="option" onclick="responder('${o.letra}')">${o.texto}</div>`).join('')}
       </div>
     </div>
   `;
-
-  document.getElementById('pergunta-container').innerHTML = html;
-  document.getElementById('btn-prev').disabled = idx === 0;
-  document.getElementById('btn-next').textContent = idx === PERGUNTAS.length - 1 ? 'Finalizar ✓' : 'Próxima →';
 }
 
-function selecionarResposta(id, letra) {
-  respostas[id] = letra;
-  document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
-  document.querySelectorAll('.option').forEach((el, i) => {
-    if (['a','b','c','d'][i] === letra) el.classList.add('selected');
-  });
-  renderPergunta(currentPergunta);
-}
+function responder(letra) {
+  estado.respostas.push(letra);
+  estado.perguntaAtual++;
 
-function proximaPergunta() {
-  const pid = PERGUNTAS[currentPergunta].id;
-  if (!respostas[pid]) { toast('⚠️ Selecione uma resposta'); return; }
-  if (currentPergunta === PERGUNTAS.length - 1) {
-    finalizarFormulario();
+  if (estado.perguntaAtual < PERGUNTAS.length) {
+    renderizarPergunta();
   } else {
-    currentPergunta++;
-    renderPergunta(currentPergunta);
-    window.scrollTo(0,0);
+    document.getElementById('progress-bar').style.width = '100%';
+    finalizarDiagnostico();
   }
 }
 
-function perguntaAnterior() {
-  if (currentPergunta > 0) {
-    currentPergunta--;
-    renderPergunta(currentPergunta);
-    window.scrollTo(0,0);
-  }
-}
+// ============ CÁLCULO DO PERFIL ============
+function calcularPerfil() {
+  // Conta respostas
+  const contagem = { a: 0, b: 0, c: 0, d: 0 };
+  estado.respostas.forEach(r => { contagem[r]++; });
 
-// ══ CALCULAR PERFIL ══
-function calcularPerfil(resps) {
-  let e=0, p=0, c=0, a=0;
-  Object.values(resps).forEach(r => {
-    if (r==='a') e++;
-    else if (r==='b') p++;
-    else if (r==='c') c++;
-    else if (r==='d') a++;
-  });
-  const scores = {Executor:e, Planejador:p, Comunicador:c, Analista:a};
-  const sorted = Object.entries(scores).sort((x,y)=>y[1]-x[1]);
-  const dominante = sorted[0][0];
-  const secundario = sorted[1][0];
-  const diff = sorted[0][1] - sorted[1][1];
-  let tipo;
-  if (diff >= 5) tipo = 'Dominante Isolado';
-  else if (diff >= 3) tipo = 'Dominante Forte';
-  else if (diff >= 1) tipo = 'Perfil Combinado';
-  else tipo = 'Perfil Equilibrado';
-  return {executor:e, planejador:p, comunicador:c, analista:a, dominante, secundario, tipo, scores};
-}
-
-// ══ COMPETÊNCIAS (baseadas no perfil) ══
-function getCompetencias(perfil) {
-  const base = {
-    Executor:   {velocidade:90, resiliencia:72, paciencia:28, disciplina:52, tolerancia_pressao:55, tolerancia_incerteza:42, autonomia:75, adaptabilidade:68},
-    Planejador: {velocidade:42, resiliencia:65, paciencia:72, disciplina:85, tolerancia_pressao:58, tolerancia_incerteza:48, autonomia:60, adaptabilidade:45},
-    Comunicador:{velocidade:65, resiliencia:58, paciencia:48, disciplina:50, tolerancia_pressao:42, tolerancia_incerteza:55, autonomia:38, adaptabilidade:70},
-    Analista:   {velocidade:38, resiliencia:80, paciencia:82, disciplina:75, tolerancia_pressao:70, tolerancia_incerteza:60, autonomia:65, adaptabilidade:42}
+  // Mapeia letras para perfis
+  const scores = {
+    Executor: contagem.a,
+    Planejador: contagem.b,
+    Comunicador: contagem.c,
+    Analista: contagem.d
   };
-  const comp = {...base[perfil.dominante]};
-  // Ajuste sutil pelo secundário
-  const sec = base[perfil.secundario];
-  Object.keys(comp).forEach(k => {
-    comp[k] = Math.round(comp[k] * 0.75 + sec[k] * 0.25);
-  });
-  return comp;
-}
 
-// ══ FINALIZAR ══
-async function finalizarFormulario() {
-  showScreen('screen-loading');
-  const perfil = calcularPerfil(respostas);
-  const comp = getCompetencias(perfil);
+  // Ordena por pontuação (maior primeiro)
+  const ordenado = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  const dominante = ordenado[0][0];
+  const dominanteScore = ordenado[0][1];
+  const secundario = ordenado[1][0];
+  const secundarioScore = ordenado[1][1];
+  const diferenca = dominanteScore - secundarioScore;
 
-  updateLoading('Calculando seu perfil comportamental...');
+  // NOVA REGRA (sem Dominante Forte):
+  // Diferença ≥ 5 → Dominante Isolado
+  // Diferença 1-4 → Perfil Combinado
+  // Diferença 0   → Perfil Equilibrado
+  let chave, tipo, categoria;
 
-  // Salvar no Supabase
-  try {
-    const respostasArr = Object.values(respostas);
-    await _supabase.from('respostas').insert({
-      nome: userData.nome,
-      email: userData.email,
-      whatsapp: userData.whatsapp || null,
-      executor: perfil.executor,
-      planejador: perfil.planejador,
-      comunicador: perfil.comunicador,
-      analista: perfil.analista,
-      dominante: perfil.dominante,
-      secundario: perfil.secundario,
-      tipo_perfil: perfil.tipo,
-      respostas: respostasArr
-    });
-  } catch(e) { console.log('Supabase error:', e); }
-
-  updateLoading('Gerando seu relatório com IA...');
-
-  // Gerar textos com API Anthropic
-  let textos = {};
-  try {
-    textos = await gerarTextosIA(perfil, userData.nome);
-  } catch(e) {
-    console.log('IA error:', e);
-    textos = getTextosDefault(perfil);
+  if (diferenca === 0) {
+    chave = "Perfil Equilibrado";
+    tipo = "Perfil Equilibrado";
+    categoria = "Equilibrado";
+  } else if (diferenca >= 5) {
+    chave = `${dominante} — Dominante Isolado`;
+    tipo = "Dominante Isolado";
+    categoria = "Dominante Isolado";
+  } else {
+    chave = `${dominante} + ${secundario}`;
+    tipo = "Perfil Combinado";
+    categoria = "Combinado";
   }
 
-  updateLoading('Preparando seu relatório...');
-
-  // Renderizar resultado
-  renderResultado(perfil, comp, textos);
-
-  // Enviar e-mail em background
-  setTimeout(() => enviarEmail(perfil, comp, textos), 1000);
-}
-
-function updateLoading(msg) {
-  document.getElementById('loading-msg').textContent = msg;
-}
-
-// ══ GERAR TEXTOS VIA IA ══
-async function gerarTextosIA(perfil, nome) {
-  const prompt = `Você é um especialista em psicologia comportamental aplicada ao trading. 
-Gere um diagnóstico comportamental personalizado para ${nome}, que possui o seguinte perfil:
-- Perfil Dominante: ${perfil.dominante}
-- Perfil Secundário: ${perfil.secundario}  
-- Tipo: ${perfil.tipo}
-- Pontuações: Executor ${perfil.executor}, Planejador ${perfil.planejador}, Comunicador ${perfil.comunicador}, Analista ${perfil.analista}
-
-Responda APENAS com JSON válido, sem markdown, sem explicações, no formato exato:
-{
-  "visao_geral": "3 parágrafos sobre o perfil comportamental",
-  "operacional": "2 parágrafos sobre comportamento no trading",
-  "pressao": "2 parágrafos sobre comportamento sob pressão",
-  "pontos_fortes": ["item1","item2","item3","item4","item5"],
-  "pontos_atencao": ["item1","item2","item3","item4","item5"],
-  "erros": ["item1","item2","item3","item4","item5"],
-  "mercado": "2 parágrafos sobre onde o perfil performa melhor",
-  "direcionamento": "3 parágrafos sobre como evoluir no trading",
-  "frase_final": "Uma frase de impacto curta sobre o maior risco/oportunidade deste perfil"
-}`;
-
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': ANTHROPIC_KEY,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 2000,
-      messages: [{ role: 'user', content: prompt }]
-    })
-  });
-
-  const data = await response.json();
-  const text = data.content[0].text.trim();
-  return JSON.parse(text);
-}
-
-// ══ TEXTOS DEFAULT (fallback) ══
-function getTextosDefault(perfil) {
   return {
-    visao_geral: `Seu perfil predominante é ${perfil.dominante} com influência de ${perfil.secundario}, caracterizando um padrão comportamental ${perfil.tipo.toLowerCase()}.\n\nEsse diagnóstico reflete sua forma natural de tomar decisões, reagir a pressões e se comportar no ambiente operacional.\n\nAs características identificadas influenciam diretamente sua performance no mercado financeiro.`,
-    operacional: `No ambiente operacional, seu comportamento segue o padrão ${perfil.dominante.toLowerCase()}, com características bem definidas de execução.\n\nEntender esse padrão é essencial para alinhar seu operacional com suas tendências naturais.`,
-    pressao: `Sob pressão, seu perfil ${perfil.dominante.toLowerCase()} tende a intensificar suas características principais.\n\nDesenvolver consciência desse mecanismo é fundamental para manter a qualidade das decisões em momentos críticos.`,
-    pontos_fortes: ["Características positivas do seu perfil", "Capacidade natural de adaptação", "Resiliência no processo", "Habilidades específicas do perfil", "Potencial de desenvolvimento"],
-    pontos_atencao: ["Pontos que exigem atenção", "Tendências que podem impactar resultados", "Comportamentos a monitorar", "Padrões a desenvolver", "Áreas de melhoria"],
-    erros: ["Padrão de erro mais comum", "Erro relacionado à pressão", "Erro de gestão emocional", "Erro de execução", "Erro de processo"],
-    mercado: `Seu perfil tende a performar melhor em ambientes que se alinham com as características do perfil ${perfil.dominante.toLowerCase()}.\n\nO alinhamento entre perfil e operacional é fundamental para a consistência.`,
-    direcionamento: `Para evoluir no trading, foque no desenvolvimento das habilidades que complementam seu perfil ${perfil.dominante.toLowerCase()}.\n\nO autoconhecimento é o primeiro passo para a consistência operacional.\n\nAlinhando comportamento, estratégia e disciplina, seu potencial tende a se transformar em resultado.`,
-    frase_final: `Seu perfil ${perfil.dominante} tem potencial — o diferencial está em como você o direciona.`
+    chave, tipo, categoria,
+    dominante, secundario,
+    scores, diferenca
   };
 }
 
-// ══ RADAR SVG ══
-function gerarRadar(comp) {
-  const labels = ['Velocidade','Resiliência','Paciência','Disciplina','Tol. Pressão','Tol. Incerteza','Autonomia','Adaptab.'];
-  const values = [comp.velocidade, comp.resiliencia, comp.paciencia, comp.disciplina, comp.tolerancia_pressao, comp.tolerancia_incerteza, comp.autonomia, comp.adaptabilidade];
-  const n = 8, r = 110, cx = 150, cy = 150;
+// ============ FINALIZAR ============
+async function finalizarDiagnostico() {
+  estado.tempoPreenchimento = Math.round((Date.now() - estado.inicioPreenchimento) / 1000);
+  showScreen('screen-loading');
 
-  const toXY = (i, val) => {
-    const angle = Math.PI * (-0.5 + i * 2/n);
-    const rv = (val/100) * r;
-    return [cx + rv * Math.cos(angle), cy + rv * Math.sin(angle)];
-  };
+  document.getElementById('loading-msg').innerText = 'Calculando seu perfil comportamental...';
+  estado.perfil = calcularPerfil();
 
-  let gridLines = '', axisLines = '', dataPoints = '';
+  await new Promise(r => setTimeout(r, 600));
+  document.getElementById('loading-msg').innerText = 'Gerando seu relatório personalizado...';
 
-  for (let f of [0.25, 0.5, 0.75, 1.0]) {
-    const pts = Array.from({length:n}, (_,i) => {
-      const angle = Math.PI * (-0.5 + i * 2/n);
-      return `${cx + f*r*Math.cos(angle)},${cy + f*r*Math.sin(angle)}`;
-    }).join(' ');
-    gridLines += `<polygon points="${pts}" fill="none" stroke="${f===1?'#2a3550':'#1e2840'}" stroke-width="1"/>`;
-  }
+  // Gera ID sequencial e salva no Supabase
+  await salvarDiagnostico();
 
-  for (let i = 0; i < n; i++) {
-    const angle = Math.PI * (-0.5 + i * 2/n);
-    axisLines += `<line x1="${cx}" y1="${cy}" x2="${cx+r*Math.cos(angle)}" y2="${cy+r*Math.sin(angle)}" stroke="#1e2840" stroke-width="1"/>`;
-  }
+  await new Promise(r => setTimeout(r, 600));
+  document.getElementById('loading-msg').innerText = 'Enviando relatório por e-mail...';
 
-  const dataPts = values.map((_,i) => toXY(i, values[i]).join(',')).join(' ');
-  dataPoints = `<polygon points="${dataPts}" fill="rgba(255,200,0,0.15)" stroke="#FFC800" stroke-width="2"/>`;
+  // Envia e-mail
+  await enviarEmail();
 
-  const dots = values.map((v,i) => {
-    const [x,y] = toXY(i,v);
-    return `<circle cx="${x}" cy="${y}" r="4" fill="#FFC800" stroke="#0a0d14" stroke-width="1.5"/>`;
-  }).join('');
+  await new Promise(r => setTimeout(r, 400));
 
-  const lbls = labels.map((l, i) => {
-    const angle = Math.PI * (-0.5 + i * 2/n);
-    const lr = r + 22;
-    const lx = cx + lr * Math.cos(angle);
-    const ly = cy + lr * Math.sin(angle);
-    const anchor = lx > cx+5 ? 'start' : lx < cx-5 ? 'end' : 'middle';
-    return `<text x="${lx}" y="${ly+4}" text-anchor="${anchor}" font-size="9.5" fill="#8892a4" font-family="DM Sans,sans-serif">${l}</text>`;
-  }).join('');
-
-  return `<svg width="300" height="300" viewBox="0 0 300 300">${gridLines}${axisLines}${dataPoints}${dots}${lbls}</svg>`;
+  // Mostra o relatório
+  renderizarRelatorio();
+  showScreen('screen-report');
 }
 
-// ══ RENDERIZAR RESULTADO ══
-function renderResultado(perfil, comp, textos) {
-  const cores = {Executor:'#FFC800', Planejador:'#3b82f6', Comunicador:'#10b981', Analista:'#8b5cf6'};
-  const totalResps = perfil.executor + perfil.planejador + perfil.comunicador + perfil.analista;
-  const pcts = {
-    Executor: Math.round(perfil.executor/totalResps*100),
-    Planejador: Math.round(perfil.planejador/totalResps*100),
-    Comunicador: Math.round(perfil.comunicador/totalResps*100),
-    Analista: Math.round(perfil.analista/totalResps*100)
-  };
-
-  const inicial = perfil.dominante[0];
-  const hoje = new Date().toLocaleDateString('pt-BR');
-
-  const comps = [
-    {l:'Velocidade de Execução', v:comp.velocidade},
-    {l:'Resiliência', v:comp.resiliencia},
-    {l:'Paciência', v:comp.paciencia},
-    {l:'Disciplina', v:comp.disciplina},
-    {l:'Tolerância à Pressão', v:comp.tolerancia_pressao},
-    {l:'Tolerância à Incerteza', v:comp.tolerancia_incerteza},
-    {l:'Autonomia Decisória', v:comp.autonomia},
-    {l:'Adaptabilidade', v:comp.adaptabilidade}
-  ];
-
-  const getColor = v => v >= 70 ? '#10b981' : v >= 50 ? '#f59e0b' : '#ef4444';
-
-  const ptsList = textos.pontos_fortes.map(p => `<div class="list-item">${p}</div>`).join('');
-  const atList = textos.pontos_atencao.map(p => `<div class="list-item">${p}</div>`).join('');
-  const errList = textos.erros.map(p => `<div class="list-item">${p}</div>`).join('');
-
-  const fraseParts = textos.frase_final.split('…');
-  const fraseHTML = fraseParts.length > 1
-    ? `${fraseParts[0]}…<br><span>${fraseParts[1]}</span>`
-    : textos.frase_final;
-
-  document.getElementById('result-content').innerHTML = `
-    <div class="result-cover">
-      <div class="result-tag">Relatório de Perfil Comportamental Aplicado ao Trading</div>
-      <div class="result-name">${userData.nome}</div>
-      <div class="result-meta">
-        <div class="result-meta-item"><span class="result-meta-label">Data</span><span class="result-meta-value">${hoje}</span></div>
-        <div class="result-meta-item"><span class="result-meta-label">Perfil Predominante</span><span class="result-meta-value gold">${perfil.dominante}</span></div>
-        <div class="result-meta-item"><span class="result-meta-label">Perfil Secundário</span><span class="result-meta-value">${perfil.secundario}</span></div>
-        <div class="result-meta-item"><span class="result-meta-label">Tipo de Perfil</span><span class="result-meta-value">${perfil.tipo}</span></div>
-      </div>
-      <div class="result-badge">
-        <div class="badge-letter">${inicial}</div>
-        <div class="badge-type">${perfil.dominante}</div>
-      </div>
-      <div class="validation-box">
-        Validação do diagnóstico: As respostas indicam consistência comportamental elevada. O resultado reflete com boa precisão sua forma de tomar decisões e reagir sob pressão.
-      </div>
-    </div>
-
-    <div class="sec">
-      <div class="sec-header"><span class="sec-num">01</span><span class="sec-title">Visão Geral do Perfil</span></div>
-      <div class="bar-label">Distribuição de Perfil</div>
-      ${Object.entries(pcts).map(([k,v]) => `
-        <div class="bar-row">
-          <span class="bar-name">${k}</span>
-          <div class="bar-track"><div class="bar-fill" style="width:${v}%;background:${cores[k]}"></div></div>
-          <span class="bar-pct">${v}%</span>
-        </div>
-      `).join('')}
-      <div style="margin-top:1.125rem" class="sec-body">
-        ${textos.visao_geral.split('\n\n').map(p=>`<p>${p}</p>`).join('')}
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="sec">
-      <div class="sec-header"><span class="sec-num">02</span><span class="sec-title">Comportamento Operacional</span></div>
-      <div class="sec-body">${textos.operacional.split('\n\n').map(p=>`<p>${p}</p>`).join('')}</div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="sec">
-      <div class="sec-header"><span class="sec-num">03</span><span class="sec-title">Comportamento sob Pressão</span></div>
-      <div class="sec-body">${textos.pressao.split('\n\n').map(p=>`<p>${p}</p>`).join('')}</div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="sec">
-      <div class="sec-header"><span class="sec-num">04</span><span class="sec-title">Mapa de Competências Comportamentais</span></div>
-      <div class="radar-wrap">${gerarRadar(comp)}</div>
-      <div class="comp-grid">
-        ${comps.map(c=>`
-          <div class="comp-item">
-            <div class="comp-label"><span>${c.l}</span><span><b>${c.v}</b></span></div>
-            <div class="comp-track"><div class="comp-fill" style="width:${c.v}%;background:${getColor(c.v)}"></div></div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="sec">
-      <div class="two-col">
-        <div>
-          <div class="sec-header"><span class="sec-num">05</span><span class="sec-title">Pontos Fortes</span></div>
-          <div class="card">
-            <div class="card-header"><span class="dot" style="background:#10b981"></span>Suas vantagens no mercado</div>
-            ${ptsList}
-          </div>
-        </div>
-        <div>
-          <div class="sec-header"><span class="sec-num">06</span><span class="sec-title">Pontos de Atenção</span></div>
-          <div class="card">
-            <div class="card-header"><span class="dot" style="background:#f59e0b"></span>O que pode comprometer</div>
-            ${atList}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="sec">
-      <div class="sec-header"><span class="sec-num">07</span><span class="sec-title">Erros Prováveis no Trading</span></div>
-      <div class="card-alert">
-        <div class="card-header" style="margin-bottom:.5rem"><span class="dot" style="background:#ef4444"></span>Padrões recorrentes identificados</div>
-        ${errList}
-      </div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="sec">
-      <div class="sec-header"><span class="sec-num">08</span><span class="sec-title">Seu Perfil no Mercado</span></div>
-      <div class="sec-body">${textos.mercado.split('\n\n').map(p=>`<p>${p}</p>`).join('')}</div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="sec">
-      <div class="sec-header"><span class="sec-num">09</span><span class="sec-title">Direcionamento Estratégico</span></div>
-      <div class="sec-body">${textos.direcionamento.split('\n\n').map(p=>`<p>${p}</p>`).join('')}</div>
-    </div>
-
-    <div class="frase-card">
-      <div class="frase-text">${fraseHTML}</div>
-      <div class="frase-sub">Conclusão — TraderScan Diagnóstico Comportamental</div>
-    </div>
-
-    <div class="email-notice">
-      <span>✉️</span>
-      <span>Seu relatório completo foi enviado para <strong>${userData.email}</strong>. Verifique sua caixa de entrada.</span>
-    </div>
-
-    <div style="display:flex;gap:1rem;margin-top:1.5rem;flex-wrap:wrap">
-      <button class="btn-primary" onclick="window.print()">📄 Imprimir Relatório</button>
-      <button class="btn-secondary" onclick="showScreen('screen-home')">← Voltar ao início</button>
-    </div>
-  `;
-
-  showScreen('screen-result');
-}
-
-// ══ ENVIAR EMAIL ══
-async function enviarEmail(perfil, comp, textos) {
+// ============ SALVAR NO SUPABASE ============
+async function salvarDiagnostico() {
   try {
-    const html = `
-      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0d14;color:#e8eaf0;padding:2rem;border-radius:12px;">
-        <h1 style="font-size:28px;color:#FFC800;margin-bottom:8px">TraderScan</h1>
-        <p style="color:#8892a4;font-size:12px;letter-spacing:2px;text-transform:uppercase">DIAGNÓSTICO COMPORTAMENTAL</p>
-        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.1);margin:1.5rem 0">
-        <h2 style="font-size:20px;margin-bottom:4px">Olá, ${userData.nome}!</h2>
-        <p style="color:#8892a4">Seu diagnóstico comportamental foi concluído.</p>
-        <div style="background:#0f1320;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.5rem;margin:1.5rem 0">
-          <div style="margin-bottom:8px"><span style="color:#8892a4;font-size:11px;text-transform:uppercase;letter-spacing:2px">Perfil Predominante</span></div>
-          <div style="font-size:28px;font-weight:700;color:#FFC800">${perfil.dominante}</div>
-          <div style="color:#8892a4;margin-top:4px">${perfil.tipo} • Secundário: ${perfil.secundario}</div>
+    // Busca o último report_id para gerar sequencial
+    const { data: ultimoData } = await _supabase
+      .from('respostas')
+      .select('report_id')
+      .order('created_at', { ascending: false })
+      .limit(1);
+
+    let proximoNumero = 1;
+    if (ultimoData && ultimoData.length > 0 && ultimoData[0].report_id) {
+      const match = ultimoData[0].report_id.match(/TS-\d{4}-(\d+)/);
+      if (match) proximoNumero = parseInt(match[1]) + 1;
+    }
+
+    const ano = new Date().getFullYear();
+    estado.reportId = `TS-${ano}-${String(proximoNumero).padStart(4, '0')}`;
+
+    await _supabase.from('respostas').insert({
+      nome: estado.nome,
+      email: estado.email,
+      whatsapp: estado.whatsapp,
+      respostas: estado.respostas.join(''),
+      perfil: estado.perfil.chave,
+      tipo_perfil: estado.perfil.tipo,
+      scores: JSON.stringify(estado.perfil.scores),
+      report_id: estado.reportId,
+      tempo_preenchimento: estado.tempoPreenchimento
+    });
+  } catch (e) {
+    console.error('Erro ao salvar:', e);
+    // Gera ID local mesmo se falhar
+    if (!estado.reportId) {
+      const ano = new Date().getFullYear();
+      estado.reportId = `TS-${ano}-LOCAL-${Date.now().toString().slice(-4)}`;
+    }
+  }
+}
+
+// ============ RADAR REDESENHADO ============
+function gerarRadarSVG(comp) {
+  const labels = ['VELOCIDADE', 'RESILIÊNCIA', 'PACIÊNCIA', 'DISCIPLINA',
+                  'TOL. PRESSÃO', 'TOL. INCERTEZA', 'AUTONOMIA', 'ADAPTAB.'];
+  const vals = [comp.V, comp.R, comp.P, comp.D, comp.TP, comp.TI, comp.A, comp.Ad];
+
+  const n = 8;
+  const r = 130;
+  const cx = 220, cy = 220, size = 440;
+
+  function xy(i, v) {
+    const a = Math.PI * (-0.5 + i * 2 / n);
+    const rv = (v / 100) * r;
+    return [cx + rv * Math.cos(a), cy + rv * Math.sin(a)];
+  }
+
+  // Grade hexagonal
+  let grid = '';
+  [0.25, 0.5, 0.75, 1.0].forEach((f, idx) => {
+    const opacity = [0.08, 0.12, 0.16, 0.22][idx];
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      const a = Math.PI * (-0.5 + i * 2 / n);
+      pts.push(`${(cx + f*r*Math.cos(a)).toFixed(1)},${(cy + f*r*Math.sin(a)).toFixed(1)}`);
+    }
+    grid += `<polygon points="${pts.join(' ')}" fill="none" stroke="rgba(255,255,255,${opacity})" stroke-width="1"/>`;
+  });
+
+  // Eixos
+  let axes = '';
+  for (let i = 0; i < n; i++) {
+    const a = Math.PI * (-0.5 + i * 2 / n);
+    const x2 = cx + r * Math.cos(a);
+    const y2 = cy + r * Math.sin(a);
+    axes += `<line x1="${cx}" y1="${cy}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>`;
+  }
+
+  // Escalas 25/50/75/100
+  let scales = '';
+  [[0.25, '25'], [0.5, '50'], [0.75, '75'], [1.0, '100']].forEach(([f, val]) => {
+    scales += `<text x="${cx+3}" y="${(cy - f*r - 2).toFixed(1)}" font-size="8" fill="rgba(255,255,255,0.25)" font-family="DM Mono,monospace">${val}</text>`;
+  });
+
+  // Polígono de dados
+  const dataPts = [];
+  for (let i = 0; i < n; i++) {
+    const [x, y] = xy(i, vals[i]);
+    dataPts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+  }
+  const polygon = `<polygon points="${dataPts.join(' ')}" fill="rgba(255,200,0,0.18)" stroke="#FFC800" stroke-width="2.5" stroke-linejoin="round"/>`;
+
+  // Pontos
+  let dots = '';
+  for (let i = 0; i < n; i++) {
+    const [x, y] = xy(i, vals[i]);
+    dots += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="#FFC800" stroke="#0a0d14" stroke-width="2"/>`;
+  }
+
+  // Labels com fundo arredondado e valor colorido
+  let lbls = '';
+  for (let i = 0; i < n; i++) {
+    const a = Math.PI * (-0.5 + i * 2 / n);
+    const lr = r + 38;
+    const lx = cx + lr * Math.cos(a);
+    const ly = cy + lr * Math.sin(a);
+
+    const cosA = Math.cos(a);
+    let anchor = 'middle';
+    if (cosA > 0.3) anchor = 'start';
+    else if (cosA < -0.3) anchor = 'end';
+
+    const valor = vals[i];
+    const corValor = valor >= 70 ? '#10b981' : (valor >= 50 ? '#f59e0b' : '#ef4444');
+    const bgWidth = labels[i].length * 5.8 + 16;
+    let bgX;
+    if (anchor === 'middle') bgX = lx - bgWidth/2;
+    else if (anchor === 'end') bgX = lx - bgWidth;
+    else bgX = lx;
+
+    lbls += `
+      <rect x="${bgX.toFixed(1)}" y="${(ly-9).toFixed(1)}" width="${bgWidth.toFixed(0)}" height="18" rx="9"
+        fill="rgba(15,19,32,0.85)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <text x="${lx.toFixed(1)}" y="${(ly+3).toFixed(1)}" text-anchor="${anchor}" font-size="9"
+        font-weight="600" letter-spacing="1.2" fill="#e8eaf0" font-family="DM Sans,sans-serif">${labels[i]}</text>
+      <text x="${lx.toFixed(1)}" y="${(ly+22).toFixed(1)}" text-anchor="${anchor}" font-size="13"
+        font-weight="700" fill="${corValor}" font-family="DM Mono,monospace">${valor}</text>`;
+  }
+
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="rgba(255,200,0,0.03)"/>
+        <stop offset="100%" stop-color="rgba(255,200,0,0)"/>
+      </radialGradient>
+    </defs>
+    <circle cx="${cx}" cy="${cy}" r="${r+10}" fill="url(#bgGrad)"/>
+    ${grid}${axes}${scales}${polygon}${dots}
+    <circle cx="${cx}" cy="${cy}" r="3" fill="rgba(255,255,255,0.2)"/>
+    ${lbls}
+  </svg>`;
+}
+
+function gerarBarrasComp(comp) {
+  const items = [
+    ['Velocidade de Execução', 'V'],
+    ['Resiliência', 'R'],
+    ['Paciência', 'P'],
+    ['Disciplina', 'D'],
+    ['Tolerância à Pressão', 'TP'],
+    ['Tolerância à Incerteza', 'TI'],
+    ['Autonomia Decisória', 'A'],
+    ['Adaptabilidade', 'Ad']
+  ];
+  return items.map(([nome, k]) => {
+    const v = comp[k];
+    const cor = v >= 70 ? '#10b981' : (v >= 50 ? '#f59e0b' : '#ef4444');
+    const nivel = v >= 70 ? 'ALTA' : (v >= 50 ? 'MÉDIA' : 'BAIXA');
+    return `
+      <div class="comp-bar">
+        <div class="comp-bar-head">
+          <span class="comp-bar-name">${nome}</span>
+          <span class="comp-bar-val" style="color:${cor}">${v}<span style="color:#5a6478;font-size:9px;margin-left:6px;font-weight:400;letter-spacing:1px">${nivel}</span></span>
         </div>
-        <div style="background:#0f1320;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.5rem;margin:1.5rem 0">
-          <h3 style="color:#FFC800;font-size:14px;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem">VISÃO GERAL</h3>
-          <p style="color:#9aa5ba;line-height:1.7;font-size:14px">${textos.visao_geral.split('\n\n')[0]}</p>
+        <div class="comp-bar-track">
+          <div class="comp-bar-fill" style="width:${v}%;background:linear-gradient(90deg,${cor}88,${cor});box-shadow:0 0 8px ${cor}44"></div>
         </div>
-        <div style="background:#0f1320;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.5rem;margin:1.5rem 0">
-          <h3 style="color:#FFC800;font-size:14px;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem">FRASE DO SEU PERFIL</h3>
-          <p style="color:#e8eaf0;font-size:16px;font-style:italic">"${textos.frase_final}"</p>
-        </div>
-        <p style="color:#8892a4;font-size:12px;margin-top:2rem">Este relatório foi gerado pelo TraderScan — Diagnóstico Comportamental Aplicado ao Trading.</p>
       </div>
     `;
+  }).join('');
+}
 
-    await fetch('https://api.resend.com/emails', {
+// ============ RELATÓRIO ============
+function renderizarRelatorio() {
+  const perfil = estado.perfil;
+  const texto = PERFIS_TEXTOS[perfil.chave];
+
+  if (!texto) {
+    document.getElementById('report-content').innerHTML = `
+      <div style="padding:2rem;text-align:center">
+        <h2>Perfil identificado: ${perfil.chave}</h2>
+        <p>Textos sendo carregados...</p>
+      </div>
+    `;
+    return;
+  }
+
+  const agora = new Date();
+  const dataStr = agora.toLocaleDateString('pt-BR');
+  const horaStr = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  const tempoMin = Math.floor(estado.tempoPreenchimento / 60);
+  const tempoSec = estado.tempoPreenchimento % 60;
+  const tempoStr = tempoMin > 0 ? `${tempoMin} min ${tempoSec}s` : `${tempoSec}s`;
+
+  const categoriaEmoji = {
+    'Dominante Isolado': '🔴',
+    'Combinado': '🟡',
+    'Equilibrado': '🟢'
+  }[perfil.categoria] || '⚪';
+
+  const paragrafos = (txt) => txt.split('\n\n').map(p => `<p>${p}</p>`).join('');
+  const listaItens = (items, cls) => items.map(i => `<div class="list-item ${cls}">${i}</div>`).join('');
+
+  document.getElementById('report-content').innerHTML = `
+
+    <!-- CABEÇALHO PROFISSIONAL -->
+    <div class="report-header">
+      <div class="rh-brand">
+        <div class="rh-brand-left">
+          TRADERSCAN
+          <small>DIAGNÓSTICO COMPORTAMENTAL</small>
+        </div>
+        <div class="rh-version">${VERSAO}</div>
+      </div>
+
+      <div class="rh-info">
+        <div class="rh-info-item">
+          <div class="lbl">AVALIADO</div>
+          <div class="val">${estado.nome}</div>
+        </div>
+        <div class="rh-info-item">
+          <div class="lbl">E-MAIL</div>
+          <div class="val">${estado.email}</div>
+        </div>
+        ${estado.whatsapp ? `
+        <div class="rh-info-item">
+          <div class="lbl">WHATSAPP</div>
+          <div class="val">${estado.whatsapp}</div>
+        </div>` : ''}
+        <div class="rh-info-item">
+          <div class="lbl">DATA · HORA</div>
+          <div class="val val-mono">${dataStr} · ${horaStr}</div>
+        </div>
+        <div class="rh-info-item">
+          <div class="lbl">ID DO DIAGNÓSTICO</div>
+          <div class="val val-mono" style="color:var(--gold)">${estado.reportId}</div>
+        </div>
+        <div class="rh-info-item">
+          <div class="lbl">TEMPO DE PREENCHIMENTO</div>
+          <div class="val val-mono">${tempoStr}</div>
+        </div>
+      </div>
+
+      <div class="rh-analyst">
+        <div class="rh-analyst-info">
+          Analista responsável: <strong>${ANALISTA}</strong>
+        </div>
+        <div style="font-size:11px;color:var(--text2);font-style:italic">
+          Diagnóstico exclusivo gerado para ${estado.nome} em ${dataStr}
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD DE RESULTADO EM DESTAQUE -->
+    <div class="result-card">
+      <div class="lbl">PERFIL IDENTIFICADO</div>
+      <div class="perfil-nome">${perfil.chave.toUpperCase()}</div>
+      <div class="badge">${categoriaEmoji} ${perfil.categoria.toUpperCase()}</div>
+      <div class="scores">
+        <div class="score-item">
+          <div class="num" style="color:${perfil.scores.Executor >= perfil.scores.Planejador && perfil.scores.Executor >= perfil.scores.Comunicador && perfil.scores.Executor >= perfil.scores.Analista ? '#FFC800' : '#8892a4'}">${perfil.scores.Executor}</div>
+          <div class="lbl-s">EXECUTOR</div>
+        </div>
+        <div class="score-item">
+          <div class="num" style="color:${perfil.scores.Planejador >= perfil.scores.Executor && perfil.scores.Planejador >= perfil.scores.Comunicador && perfil.scores.Planejador >= perfil.scores.Analista ? '#3b82f6' : '#8892a4'}">${perfil.scores.Planejador}</div>
+          <div class="lbl-s">PLANEJADOR</div>
+        </div>
+        <div class="score-item">
+          <div class="num" style="color:${perfil.scores.Comunicador >= perfil.scores.Executor && perfil.scores.Comunicador >= perfil.scores.Planejador && perfil.scores.Comunicador >= perfil.scores.Analista ? '#10b981' : '#8892a4'}">${perfil.scores.Comunicador}</div>
+          <div class="lbl-s">COMUNICADOR</div>
+        </div>
+        <div class="score-item">
+          <div class="num" style="color:${perfil.scores.Analista >= perfil.scores.Executor && perfil.scores.Analista >= perfil.scores.Planejador && perfil.scores.Analista >= perfil.scores.Comunicador ? '#8b5cf6' : '#8892a4'}">${perfil.scores.Analista}</div>
+          <div class="lbl-s">ANALISTA</div>
+        </div>
+      </div>
+      <div class="score-diff">DIFERENÇA DOMINANTE-SECUNDÁRIO: ${perfil.diferenca}</div>
+    </div>
+
+    <!-- 01 - VISÃO GERAL + RADAR -->
+    <div class="section">
+      <div class="section-title">01 — VISÃO GERAL DO PERFIL</div>
+      <div style="display:grid;grid-template-columns:1fr 460px;gap:2rem;align-items:start" class="visao-grid">
+        <div class="section-content">${paragrafos(texto.visao)}</div>
+        <div class="radar-wrap">${gerarRadarSVG(texto.comp)}</div>
+      </div>
+    </div>
+
+    <!-- MAPA DE COMPETÊNCIAS DETALHADO -->
+    <div class="section">
+      <div class="section-title">MAPA DE COMPETÊNCIAS COMPORTAMENTAIS</div>
+      <div class="comp-bars">${gerarBarrasComp(texto.comp)}</div>
+    </div>
+
+    <!-- 02 + 03 - OPERACIONAL E PRESSÃO -->
+    <div class="grid-2">
+      <div class="section">
+        <div class="section-title">02 — COMPORTAMENTO OPERACIONAL</div>
+        <div class="section-content">${paragrafos(texto.operacional)}</div>
+      </div>
+      <div class="section">
+        <div class="section-title">03 — COMPORTAMENTO SOB PRESSÃO</div>
+        <div class="section-content">${paragrafos(texto.pressao)}</div>
+      </div>
+    </div>
+
+    <!-- 04 + 05 - FORTES E ATENÇÃO -->
+    <div class="grid-2">
+      <div class="card-inner green">
+        <div class="section-title" style="color:#10b981">✦ 04 — PONTOS FORTES</div>
+        ${listaItens(texto.fortes, 'green')}
+      </div>
+      <div class="card-inner yellow">
+        <div class="section-title" style="color:#f59e0b">⚠ 05 — PONTOS DE ATENÇÃO</div>
+        ${listaItens(texto.atencao, 'yellow')}
+      </div>
+    </div>
+
+    <!-- 06 - ERROS -->
+    <div class="card-inner red" style="margin-top:1.5rem">
+      <div class="section-title" style="color:#ef4444">✕ 06 — ERROS PROVÁVEIS NO TRADING</div>
+      ${listaItens(texto.erros, 'red')}
+    </div>
+
+    <!-- 07 + 08 - MERCADO E DIRECIONAMENTO -->
+    <div class="grid-2" style="margin-top:1.5rem">
+      <div class="section">
+        <div class="section-title">07 — SEU PERFIL NO MERCADO</div>
+        <div class="section-content">${paragrafos(texto.mercado)}</div>
+      </div>
+      <div class="section">
+        <div class="section-title">08 — DIRECIONAMENTO ESTRATÉGICO</div>
+        <div class="section-content">${paragrafos(texto.direcionamento)}</div>
+      </div>
+    </div>
+
+    <!-- FRASE FINAL -->
+    <div class="frase-final" style="margin-top:1.5rem">
+      <div class="frase">"${texto.frase}"</div>
+      <div class="sig">— CONCLUSÃO · TRADERSCAN</div>
+    </div>
+
+    <!-- AVISO CONFIDENCIALIDADE -->
+    <div class="confidencial">
+      ⚠ Este relatório é confidencial e destinado exclusivamente ao avaliado.<br>
+      Análise comportamental aplicada ao trading · Não constitui recomendação de investimento.
+    </div>
+
+    <!-- BOTÕES -->
+    <div style="text-align:center;margin-top:2rem;padding-bottom:2rem;display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ IMPRIMIR / PDF</button>
+      <button class="btn btn-ghost" onclick="location.reload()">↺ NOVO DIAGNÓSTICO</button>
+    </div>
+  `;
+
+  // Ajuste responsivo do grid de visão geral
+  const grids = document.querySelectorAll('.visao-grid');
+  grids.forEach(g => {
+    if (window.innerWidth < 900) g.style.gridTemplateColumns = '1fr';
+  });
+}
+</script>
+<script>
+// ============ ENVIO DE E-MAIL ============
+async function enviarEmail() {
+  const perfil = estado.perfil;
+  const texto = PERFIS_TEXTOS[perfil.chave];
+  if (!texto) return;
+
+  const agora = new Date();
+  const dataStr = agora.toLocaleDateString('pt-BR');
+  const horaStr = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  const tempoMin = Math.floor(estado.tempoPreenchimento / 60);
+  const tempoSec = estado.tempoPreenchimento % 60;
+  const tempoStr = tempoMin > 0 ? `${tempoMin} min ${tempoSec}s` : `${tempoSec}s`;
+
+  const html = `
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+body { font-family: Arial, sans-serif; background: #f4f4f6; margin: 0; padding: 20px; color: #1a1a1a; }
+.wrap { max-width: 720px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+.header { background: linear-gradient(135deg, #0a0d14, #1a1f33); color: #fff; padding: 32px; }
+.brand { color: #FFC800; font-size: 24px; font-weight: bold; letter-spacing: 3px; margin-bottom: 4px; }
+.brand-sub { color: #8892a4; font-size: 10px; letter-spacing: 2px; }
+.info-grid { background: #f9f9fb; padding: 24px; border-bottom: 1px solid #e5e5ea; }
+.info-row { display: flex; flex-wrap: wrap; gap: 12px 32px; }
+.info-item { min-width: 160px; }
+.info-lbl { font-size: 10px; letter-spacing: 1.5px; color: #6b7280; text-transform: uppercase; margin-bottom: 2px; }
+.info-val { font-size: 13px; color: #1a1a1a; font-weight: 500; }
+.analyst { padding: 16px 24px; background: #fff; border-bottom: 1px solid #e5e5ea; font-size: 13px; color: #6b7280; }
+.analyst strong { color: #1a1a1a; }
+.result { padding: 32px; text-align: center; background: linear-gradient(135deg, #fffbed, #fff7d6); }
+.result-lbl { font-size: 11px; letter-spacing: 2px; color: #b8860b; font-weight: bold; margin-bottom: 8px; }
+.result-perfil { font-size: 28px; color: #FFC800; font-weight: bold; letter-spacing: 1.5px; margin-bottom: 8px; }
+.result-cat { display: inline-block; padding: 4px 12px; background: rgba(255,200,0,0.2); border-radius: 100px; font-size: 11px; color: #8b6914; margin-bottom: 16px; }
+.scores { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 12px; }
+.score { text-align: center; }
+.score-num { font-size: 22px; font-weight: bold; }
+.score-lbl { font-size: 10px; color: #6b7280; letter-spacing: 1px; }
+.content { padding: 32px; }
+.section { margin-bottom: 28px; }
+.section-title { font-size: 12px; letter-spacing: 2px; color: #FFC800; font-weight: bold; margin-bottom: 12px; text-transform: uppercase; border-left: 3px solid #FFC800; padding-left: 10px; }
+.section-content { font-size: 14px; line-height: 1.7; color: #2a2a2a; }
+.section-content p { margin-bottom: 12px; }
+.list { padding-left: 0; list-style: none; }
+.list li { padding: 8px 0 8px 22px; position: relative; font-size: 13.5px; line-height: 1.55; border-bottom: 1px solid #f0f0f3; }
+.list li:before { position: absolute; left: 0; top: 11px; width: 8px; height: 8px; border-radius: 50%; content: ''; }
+.list.green li:before { background: #10b981; }
+.list.yellow li:before { background: #f59e0b; }
+.list.red li:before { background: #ef4444; }
+.frase { background: linear-gradient(135deg, #fffbed, #fff7d6); border-left: 4px solid #FFC800; padding: 20px; margin: 24px 0; text-align: center; }
+.frase-txt { font-size: 18px; font-weight: bold; color: #8b6914; font-style: italic; }
+.footer { padding: 20px; background: #1a1f33; color: #8892a4; text-align: center; font-size: 11px; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div class="brand">TRADERSCAN</div>
+    <div class="brand-sub">DIAGNÓSTICO COMPORTAMENTAL · ${VERSAO}</div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-row">
+      <div class="info-item"><div class="info-lbl">AVALIADO</div><div class="info-val">${estado.nome}</div></div>
+      <div class="info-item"><div class="info-lbl">E-MAIL</div><div class="info-val">${estado.email}</div></div>
+      ${estado.whatsapp ? `<div class="info-item"><div class="info-lbl">WHATSAPP</div><div class="info-val">${estado.whatsapp}</div></div>` : ''}
+      <div class="info-item"><div class="info-lbl">DATA</div><div class="info-val">${dataStr} · ${horaStr}</div></div>
+      <div class="info-item"><div class="info-lbl">ID</div><div class="info-val" style="color:#b8860b">${estado.reportId}</div></div>
+      <div class="info-item"><div class="info-lbl">TEMPO</div><div class="info-val">${tempoStr}</div></div>
+    </div>
+  </div>
+
+  <div class="analyst">Analista responsável: <strong>${ANALISTA}</strong></div>
+
+  <div class="result">
+    <div class="result-lbl">PERFIL IDENTIFICADO</div>
+    <div class="result-perfil">${perfil.chave.toUpperCase()}</div>
+    <div class="result-cat">${perfil.categoria.toUpperCase()}</div>
+    <div class="scores">
+      <div class="score"><div class="score-num">${perfil.scores.Executor}</div><div class="score-lbl">EXECUTOR</div></div>
+      <div class="score"><div class="score-num">${perfil.scores.Planejador}</div><div class="score-lbl">PLANEJADOR</div></div>
+      <div class="score"><div class="score-num">${perfil.scores.Comunicador}</div><div class="score-lbl">COMUNICADOR</div></div>
+      <div class="score"><div class="score-num">${perfil.scores.Analista}</div><div class="score-lbl">ANALISTA</div></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title">01 — VISÃO GERAL DO PERFIL</div>
+      <div class="section-content">${texto.visao.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">02 — COMPORTAMENTO OPERACIONAL</div>
+      <div class="section-content">${texto.operacional.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">03 — COMPORTAMENTO SOB PRESSÃO</div>
+      <div class="section-content">${texto.pressao.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">04 — PONTOS FORTES</div>
+      <ul class="list green">${texto.fortes.map(i => `<li>${i}</li>`).join('')}</ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">05 — PONTOS DE ATENÇÃO</div>
+      <ul class="list yellow">${texto.atencao.map(i => `<li>${i}</li>`).join('')}</ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">06 — ERROS PROVÁVEIS NO TRADING</div>
+      <ul class="list red">${texto.erros.map(i => `<li>${i}</li>`).join('')}</ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">07 — SEU PERFIL NO MERCADO</div>
+      <div class="section-content">${texto.mercado.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">08 — DIRECIONAMENTO ESTRATÉGICO</div>
+      <div class="section-content">${texto.direcionamento.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
+    </div>
+
+    <div class="frase">
+      <div class="frase-txt">"${texto.frase}"</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    TRADERSCAN · Diagnóstico Comportamental ${VERSAO}<br>
+    Este relatório é confidencial e destinado exclusivamente ao avaliado.
+  </div>
+</div>
+</body></html>
+  `;
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${RESEND_KEY}`,
@@ -1304,74 +1619,76 @@ async function enviarEmail(perfil, comp, textos) {
       },
       body: JSON.stringify({
         from: 'TraderScan <onboarding@resend.dev>',
-        to: userData.email,
-        subject: `Seu Diagnóstico TraderScan — Perfil ${perfil.dominante}`,
-        html
+        to: [EMAIL_DESTINO],
+        subject: `[${estado.reportId}] Diagnóstico TraderScan · ${estado.nome} · ${perfil.chave}`,
+        html: html
       })
     });
-  } catch(e) { console.log('Email error:', e); }
-}
-
-// ══ ADMIN ══
-async function acessarAdmin() {
-  const pass = document.getElementById('admin-pass').value;
-  if (pass !== ADMIN_PASS) { toast('⚠️ Senha incorreta'); return; }
-
-  document.getElementById('admin-table').style.display = 'block';
-  document.getElementById('admin-table').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text2)">Carregando...</div>';
-
-  try {
-    const { data, error } = await _supabase.from('respostas').select('*').order('created_at', {ascending: false});
-    if (error) throw error;
-
-    if (!data || data.length === 0) {
-      document.getElementById('admin-table').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text2)">Nenhum resultado ainda.</div>';
-      return;
-    }
-
-    const cores = {Executor:'rgba(255,200,0,0.15)',Planejador:'rgba(59,130,246,0.15)',Comunicador:'rgba(16,185,129,0.15)',Analista:'rgba(139,92,246,0.15)'};
-
-    document.getElementById('admin-table').innerHTML = `
-      <div style="margin-bottom:1rem;font-size:13px;color:var(--text2)">${data.length} diagnóstico(s) realizado(s)</div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>E-mail</th>
-              <th>Perfil</th>
-              <th>Tipo</th>
-              <th>Data</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${data.map(r => `
-              <tr>
-                <td>${r.nome}</td>
-                <td>${r.email}</td>
-                <td><span class="perfil-badge" style="background:${cores[r.dominante]||'rgba(255,255,255,0.1)'};color:#fff">${r.dominante}</span></td>
-                <td>${r.tipo_perfil}</td>
-                <td>${new Date(r.created_at).toLocaleDateString('pt-BR')}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    `;
-  } catch(e) {
-    document.getElementById('admin-table').innerHTML = '<div style="text-align:center;padding:2rem;color:#ef4444">Erro ao carregar dados. Verifique as permissões do Supabase.</div>';
-    console.log(e);
+    const result = await response.json();
+    console.log('E-mail enviado:', result);
+  } catch (e) {
+    console.error('Erro ao enviar e-mail:', e);
   }
 }
 
-// ══ TOAST ══
-function toast(msg) {
-  const el = document.createElement('div');
-  el.className = 'toast';
-  el.innerHTML = msg;
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 3000);
+// ============ ADMIN ============
+async function carregarDiagnosticos() {
+  try {
+    const { data, error } = await _supabase
+      .from('respostas')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) { console.error(error); return; }
+
+    // Estatísticas
+    const total = data.length;
+    const hoje = data.filter(d => {
+      const c = new Date(d.created_at);
+      const a = new Date();
+      return c.toDateString() === a.toDateString();
+    }).length;
+    const perfis = {};
+    data.forEach(d => { perfis[d.perfil] = (perfis[d.perfil] || 0) + 1; });
+    const perfilTop = Object.entries(perfis).sort((a,b) => b[1] - a[1])[0];
+
+    document.getElementById('admin-stats').innerHTML = `
+      <div class="stat-card">
+        <div class="stat-num">${total}</div>
+        <div class="stat-lbl">TOTAL</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">${hoje}</div>
+        <div class="stat-lbl">HOJE</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="font-size:14px;line-height:1.4">${perfilTop ? perfilTop[0] : '—'}</div>
+        <div class="stat-lbl">PERFIL MAIS COMUM</div>
+      </div>
+    `;
+
+    // Tabela
+    document.getElementById('admin-tbody').innerHTML = data.map(d => {
+      const dt = new Date(d.created_at);
+      const tempo = d.tempo_preenchimento ?
+        (d.tempo_preenchimento >= 60 ? Math.floor(d.tempo_preenchimento/60)+'m'+(d.tempo_preenchimento%60)+'s' : d.tempo_preenchimento+'s')
+        : '—';
+      return `
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:11px;color:#FFC800">${d.report_id || '—'}</td>
+          <td>${dt.toLocaleDateString('pt-BR')} ${dt.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}</td>
+          <td>${d.nome}</td>
+          <td style="font-size:12px">${d.email}</td>
+          <td>${d.perfil}</td>
+          <td style="font-family:'DM Mono',monospace;font-size:11px">${tempo}</td>
+        </tr>
+      `;
+    }).join('');
+  } catch (e) {
+    console.error('Erro ao carregar:', e);
+  }
 }
 </script>
 </body>
 </html>
+
