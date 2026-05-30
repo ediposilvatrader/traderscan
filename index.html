@@ -1611,15 +1611,13 @@ body { font-family: Arial, sans-serif; background: #f4f4f6; margin: 0; padding: 
   `;
 
   try {
-    const response = await fetch('https://api.resend.com/emails', {
+    const response = await fetch('https://dyspwprvlojksvyrpkrm.supabase.co/functions/v1/send-email', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${RESEND_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'TraderScan <onboarding@resend.dev>',
-        to: [EMAIL_DESTINO],
+        to: EMAIL_DESTINO,
         subject: `[${estado.reportId}] Diagnóstico TraderScan · ${estado.nome} · ${perfil.chave}`,
         html: html
       })
