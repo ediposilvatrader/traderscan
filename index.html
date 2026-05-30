@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TraderScan — Diagnóstico Comportamental</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500;600;700&display=swap');
 
@@ -1610,16 +1610,44 @@ body { font-family: Arial, sans-serif; background: #f4f4f6; margin: 0; padding: 
 </body></html>
   `;
 
+  // Gera PDF a partir do HTML do relatório
+  const tempDiv = document.createElement('div');
+  tempDiv.style.cssText = 'position:absolute;left:-9999px;width:210mm;';
+  tempDiv.innerHTML = html;
+  document.body.appendChild(tempDiv);
+
+  let pdfBase64 = null;
+  try {
+    const pdfBlob = await html2pdf()
+      .set({
+        margin: [10, 10, 10, 10],
+        filename: `TraderScan-${estado.reportId}.pdf`,
+        image: { type: 'jpeg', quality: 0.95 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      })
+      .from(tempDiv)
+      .outputPdf('blob');
+
+    pdfBase64 = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(',')[1]);
+      reader.readAsDataURL(pdfBlob);
+    });
+  } finally {
+    document.body.removeChild(tempDiv);
+  }
+
   try {
     const response = await fetch('https://dyspwprvlojksvyrpkrm.supabase.co/functions/v1/send-email', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         to: EMAIL_DESTINO,
         subject: `[${estado.reportId}] Diagnóstico TraderScan · ${estado.nome} · ${perfil.chave}`,
-        html: html
+        html: `<p style="font-family:Arial,sans-serif;font-size:14px">Olá! Segue em anexo o diagnóstico comportamental de <strong>${estado.nome}</strong>.<br><br>ID do relatório: <strong>${estado.reportId}</strong><br>Perfil identificado: <strong>${perfil.chave}</strong></p>`,
+        attachment: pdfBase64,
+        filename: `TraderScan-${estado.reportId}.pdf`
       })
     });
     const result = await response.json();
