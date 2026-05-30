@@ -1610,14 +1610,19 @@ body { font-family: Arial, sans-serif; background: #f4f4f6; margin: 0; padding: 
 </body></html>
   `;
 
-  // Gera PDF via iframe (garante que os estilos do <head> sejam aplicados)
-  const iframe = document.createElement('iframe');
-  iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:794px;border:none;';
-  iframe.srcdoc = html;
-  document.body.appendChild(iframe);
+  // Extrai estilo e conteúdo do HTML via DOMParser e injeta na página atual
+  const parsed = new DOMParser().parseFromString(html, 'text/html');
+  const pdfStyle = document.createElement('style');
+  pdfStyle.id = 'pdf-report-style';
+  pdfStyle.textContent = Array.from(parsed.querySelectorAll('style')).map(s => s.textContent).join('\n');
+  document.head.appendChild(pdfStyle);
 
-  // Aguarda renderização completa
-  await new Promise(r => setTimeout(r, 1000));
+  const pdfContainer = document.createElement('div');
+  pdfContainer.style.cssText = 'position:absolute;top:0;left:-9999px;width:794px;background:#f4f4f6;';
+  pdfContainer.innerHTML = parsed.body.innerHTML;
+  document.body.appendChild(pdfContainer);
+
+  await new Promise(r => setTimeout(r, 500));
 
   let pdfBase64 = null;
   try {
@@ -1626,10 +1631,10 @@ body { font-family: Arial, sans-serif; background: #f4f4f6; margin: 0; padding: 
         margin: [10, 10, 10, 10],
         filename: `TraderScan-${estado.reportId}.pdf`,
         image: { type: 'jpeg', quality: 0.95 },
-        html2canvas: { scale: 2, useCORS: true },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       })
-      .from(iframe.contentDocument.body)
+      .from(pdfContainer)
       .outputPdf('blob');
 
     pdfBase64 = await new Promise((resolve) => {
@@ -1638,7 +1643,9 @@ body { font-family: Arial, sans-serif; background: #f4f4f6; margin: 0; padding: 
       reader.readAsDataURL(pdfBlob);
     });
   } finally {
-    document.body.removeChild(iframe);
+    document.body.removeChild(pdfContainer);
+    const s = document.getElementById('pdf-report-style');
+    if (s) s.remove();
   }
 
   try {
