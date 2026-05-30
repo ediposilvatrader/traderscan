@@ -1096,17 +1096,12 @@ async function finalizarDiagnostico() {
   // Gera ID sequencial e salva no Supabase
   await salvarDiagnostico();
 
-  await new Promise(r => setTimeout(r, 600));
-  document.getElementById('loading-msg').innerText = 'Enviando relatório por e-mail...';
-
-  // Envia e-mail
-  await enviarEmail();
-
-  await new Promise(r => setTimeout(r, 400));
-
-  // Mostra o relatório
+  // Renderiza e mostra o relatório primeiro
   renderizarRelatorio();
   showScreen('screen-report');
+
+  // Envia e-mail em segundo plano (não bloqueia a tela)
+  enviarEmail();
 }
 
 // ============ SALVAR NO SUPABASE ============
@@ -1474,155 +1469,13 @@ function renderizarRelatorio() {
 // ============ ENVIO DE E-MAIL ============
 async function enviarEmail() {
   const perfil = estado.perfil;
-  const texto = PERFIS_TEXTOS[perfil.chave];
-  if (!texto) return;
+  if (!perfil) return;
 
-  const agora = new Date();
-  const dataStr = agora.toLocaleDateString('pt-BR');
-  const horaStr = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  const tempoMin = Math.floor(estado.tempoPreenchimento / 60);
-  const tempoSec = estado.tempoPreenchimento % 60;
-  const tempoStr = tempoMin > 0 ? `${tempoMin} min ${tempoSec}s` : `${tempoSec}s`;
+  // Aguarda o relatório estar pintado na tela
+  await new Promise(r => setTimeout(r, 600));
 
-  const html = `
-<!DOCTYPE html>
-<html><head><meta charset="UTF-8">
-<style>
-body { font-family: Arial, sans-serif; background: #f4f4f6; margin: 0; padding: 20px; color: #1a1a1a; }
-.wrap { max-width: 720px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
-.header { background: linear-gradient(135deg, #0a0d14, #1a1f33); color: #fff; padding: 32px; }
-.brand { color: #FFC800; font-size: 24px; font-weight: bold; letter-spacing: 3px; margin-bottom: 4px; }
-.brand-sub { color: #8892a4; font-size: 10px; letter-spacing: 2px; }
-.info-grid { background: #f9f9fb; padding: 24px; border-bottom: 1px solid #e5e5ea; }
-.info-row { display: flex; flex-wrap: wrap; gap: 12px 32px; }
-.info-item { min-width: 160px; }
-.info-lbl { font-size: 10px; letter-spacing: 1.5px; color: #6b7280; text-transform: uppercase; margin-bottom: 2px; }
-.info-val { font-size: 13px; color: #1a1a1a; font-weight: 500; }
-.analyst { padding: 16px 24px; background: #fff; border-bottom: 1px solid #e5e5ea; font-size: 13px; color: #6b7280; }
-.analyst strong { color: #1a1a1a; }
-.result { padding: 32px; text-align: center; background: linear-gradient(135deg, #fffbed, #fff7d6); }
-.result-lbl { font-size: 11px; letter-spacing: 2px; color: #b8860b; font-weight: bold; margin-bottom: 8px; }
-.result-perfil { font-size: 28px; color: #FFC800; font-weight: bold; letter-spacing: 1.5px; margin-bottom: 8px; }
-.result-cat { display: inline-block; padding: 4px 12px; background: rgba(255,200,0,0.2); border-radius: 100px; font-size: 11px; color: #8b6914; margin-bottom: 16px; }
-.scores { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 12px; }
-.score { text-align: center; }
-.score-num { font-size: 22px; font-weight: bold; }
-.score-lbl { font-size: 10px; color: #6b7280; letter-spacing: 1px; }
-.content { padding: 32px; }
-.section { margin-bottom: 28px; }
-.section-title { font-size: 12px; letter-spacing: 2px; color: #FFC800; font-weight: bold; margin-bottom: 12px; text-transform: uppercase; border-left: 3px solid #FFC800; padding-left: 10px; }
-.section-content { font-size: 14px; line-height: 1.7; color: #2a2a2a; }
-.section-content p { margin-bottom: 12px; }
-.list { padding-left: 0; list-style: none; }
-.list li { padding: 8px 0 8px 22px; position: relative; font-size: 13.5px; line-height: 1.55; border-bottom: 1px solid #f0f0f3; }
-.list li:before { position: absolute; left: 0; top: 11px; width: 8px; height: 8px; border-radius: 50%; content: ''; }
-.list.green li:before { background: #10b981; }
-.list.yellow li:before { background: #f59e0b; }
-.list.red li:before { background: #ef4444; }
-.frase { background: linear-gradient(135deg, #fffbed, #fff7d6); border-left: 4px solid #FFC800; padding: 20px; margin: 24px 0; text-align: center; }
-.frase-txt { font-size: 18px; font-weight: bold; color: #8b6914; font-style: italic; }
-.footer { padding: 20px; background: #1a1f33; color: #8892a4; text-align: center; font-size: 11px; letter-spacing: 1px; }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="header">
-    <div class="brand">TRADERSCAN</div>
-    <div class="brand-sub">DIAGNÓSTICO COMPORTAMENTAL · ${VERSAO}</div>
-  </div>
-
-  <div class="info-grid">
-    <div class="info-row">
-      <div class="info-item"><div class="info-lbl">AVALIADO</div><div class="info-val">${estado.nome}</div></div>
-      <div class="info-item"><div class="info-lbl">E-MAIL</div><div class="info-val">${estado.email}</div></div>
-      ${estado.whatsapp ? `<div class="info-item"><div class="info-lbl">WHATSAPP</div><div class="info-val">${estado.whatsapp}</div></div>` : ''}
-      <div class="info-item"><div class="info-lbl">DATA</div><div class="info-val">${dataStr} · ${horaStr}</div></div>
-      <div class="info-item"><div class="info-lbl">ID</div><div class="info-val" style="color:#b8860b">${estado.reportId}</div></div>
-      <div class="info-item"><div class="info-lbl">TEMPO</div><div class="info-val">${tempoStr}</div></div>
-    </div>
-  </div>
-
-  <div class="analyst">Analista responsável: <strong>${ANALISTA}</strong></div>
-
-  <div class="result">
-    <div class="result-lbl">PERFIL IDENTIFICADO</div>
-    <div class="result-perfil">${perfil.chave.toUpperCase()}</div>
-    <div class="result-cat">${perfil.categoria.toUpperCase()}</div>
-    <div class="scores">
-      <div class="score"><div class="score-num">${perfil.scores.Executor}</div><div class="score-lbl">EXECUTOR</div></div>
-      <div class="score"><div class="score-num">${perfil.scores.Planejador}</div><div class="score-lbl">PLANEJADOR</div></div>
-      <div class="score"><div class="score-num">${perfil.scores.Comunicador}</div><div class="score-lbl">COMUNICADOR</div></div>
-      <div class="score"><div class="score-num">${perfil.scores.Analista}</div><div class="score-lbl">ANALISTA</div></div>
-    </div>
-  </div>
-
-  <div class="content">
-    <div class="section">
-      <div class="section-title">01 — VISÃO GERAL DO PERFIL</div>
-      <div class="section-content">${texto.visao.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">02 — COMPORTAMENTO OPERACIONAL</div>
-      <div class="section-content">${texto.operacional.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">03 — COMPORTAMENTO SOB PRESSÃO</div>
-      <div class="section-content">${texto.pressao.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">04 — PONTOS FORTES</div>
-      <ul class="list green">${texto.fortes.map(i => `<li>${i}</li>`).join('')}</ul>
-    </div>
-
-    <div class="section">
-      <div class="section-title">05 — PONTOS DE ATENÇÃO</div>
-      <ul class="list yellow">${texto.atencao.map(i => `<li>${i}</li>`).join('')}</ul>
-    </div>
-
-    <div class="section">
-      <div class="section-title">06 — ERROS PROVÁVEIS NO TRADING</div>
-      <ul class="list red">${texto.erros.map(i => `<li>${i}</li>`).join('')}</ul>
-    </div>
-
-    <div class="section">
-      <div class="section-title">07 — SEU PERFIL NO MERCADO</div>
-      <div class="section-content">${texto.mercado.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">08 — DIRECIONAMENTO ESTRATÉGICO</div>
-      <div class="section-content">${texto.direcionamento.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
-    </div>
-
-    <div class="frase">
-      <div class="frase-txt">"${texto.frase}"</div>
-    </div>
-  </div>
-
-  <div class="footer">
-    TRADERSCAN · Diagnóstico Comportamental ${VERSAO}<br>
-    Este relatório é confidencial e destinado exclusivamente ao avaliado.
-  </div>
-</div>
-</body></html>
-  `;
-
-  // Extrai estilo e conteúdo do HTML via DOMParser e injeta na página atual
-  const parsed = new DOMParser().parseFromString(html, 'text/html');
-  const pdfStyle = document.createElement('style');
-  pdfStyle.id = 'pdf-report-style';
-  pdfStyle.textContent = Array.from(parsed.querySelectorAll('style')).map(s => s.textContent).join('\n');
-  document.head.appendChild(pdfStyle);
-
-  const pdfContainer = document.createElement('div');
-  pdfContainer.style.cssText = 'position:absolute;top:0;left:-9999px;width:794px;background:#f4f4f6;';
-  pdfContainer.innerHTML = parsed.body.innerHTML;
-  document.body.appendChild(pdfContainer);
-
-  await new Promise(r => setTimeout(r, 500));
+  // Captura o relatório visual já renderizado na tela
+  const reportEl = document.getElementById('report-content');
 
   let pdfBase64 = null;
   try {
@@ -1631,10 +1484,10 @@ body { font-family: Arial, sans-serif; background: #f4f4f6; margin: 0; padding: 
         margin: [10, 10, 10, 10],
         filename: `TraderScan-${estado.reportId}.pdf`,
         image: { type: 'jpeg', quality: 0.95 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
+        html2canvas: { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       })
-      .from(pdfContainer)
+      .from(reportEl)
       .outputPdf('blob');
 
     pdfBase64 = await new Promise((resolve) => {
@@ -1642,10 +1495,8 @@ body { font-family: Arial, sans-serif; background: #f4f4f6; margin: 0; padding: 
       reader.onloadend = () => resolve(reader.result.split(',')[1]);
       reader.readAsDataURL(pdfBlob);
     });
-  } finally {
-    document.body.removeChild(pdfContainer);
-    const s = document.getElementById('pdf-report-style');
-    if (s) s.remove();
+  } catch (e) {
+    console.error('Erro ao gerar PDF:', e);
   }
 
   try {
