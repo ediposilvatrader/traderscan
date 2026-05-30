@@ -1474,8 +1474,13 @@ async function enviarEmail() {
   // Aguarda o relatório estar pintado na tela
   await new Promise(r => setTimeout(r, 600));
 
-  // Captura o relatório visual já renderizado na tela
+  // Clona o relatório renderizado e posiciona visível para o html2canvas capturar
   const reportEl = document.getElementById('report-content');
+  const clone = reportEl.cloneNode(true);
+  clone.style.cssText = 'position:fixed;top:0;left:0;width:800px;max-height:none;overflow:visible;z-index:99999;pointer-events:none;';
+  document.body.appendChild(clone);
+
+  await new Promise(r => setTimeout(r, 300));
 
   let pdfBase64 = null;
   try {
@@ -1484,10 +1489,10 @@ async function enviarEmail() {
         margin: [10, 10, 10, 10],
         filename: `TraderScan-${estado.reportId}.pdf`,
         image: { type: 'jpeg', quality: 0.95 },
-        html2canvas: { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       })
-      .from(reportEl)
+      .from(clone)
       .outputPdf('blob');
 
     pdfBase64 = await new Promise((resolve) => {
@@ -1497,6 +1502,8 @@ async function enviarEmail() {
     });
   } catch (e) {
     console.error('Erro ao gerar PDF:', e);
+  } finally {
+    document.body.removeChild(clone);
   }
 
   try {
